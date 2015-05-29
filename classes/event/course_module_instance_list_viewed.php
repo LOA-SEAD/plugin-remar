@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_remar instance list viewed event.
+ * The mod_remarmoodle instance list viewed event.
  *
- * @package    mod_remar
+ * @package    mod_remarmoodle
  * @copyright  2015 REner Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_remar\event;
+namespace mod_remarmoodle\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_remar instance list viewed event class.
+ * The mod_remarmoodle instance list viewed event class.
  *
- * @package    mod_remar
+ * @package    mod_remarmoodle
  * @copyright  2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

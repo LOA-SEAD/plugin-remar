@@ -7,7 +7,7 @@
  */
 require_once($CFG->libdir . "/externallib.php");
 
-class mod_remar_external extends external_api {
+class mod_remarmoodle_external extends external_api {
     /**
      * Returns description of method parameters
      * @return external_function_parameters
@@ -64,7 +64,7 @@ class mod_remar_external extends external_api {
         //Parameters validation
         $validated_params = self::validate_parameters(self::quiforca_update_parameters(), array('params' => $params));
  
-        $lastinsertid = $DB->insert_record('remar_quiforca', $params);
+        $lastinsertid = $DB->insert_record('remarmoodle_quiforca', $params);
  
         $ret = array (
             'code' => $lastinsertid,

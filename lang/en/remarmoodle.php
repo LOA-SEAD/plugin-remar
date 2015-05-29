@@ -16,27 +16,27 @@
 
 
 /**
- * English strings for remar
+ * English strings for remarmoodle
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod_remar
+ * @package    mod_remarmoodle
  * @copyright  2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'remar';
-$string['modulenameplural'] = 'remars';
-$string['modulename_help'] = 'Use the remar module for... | The remar module allows...';
-$string['remarfieldset'] = 'Custom example fieldset';
-$string['remarname'] = 'remar name';
-$string['remarname_help'] = 'This is the content of the help tooltip associated with the remarname field. Markdown syntax is supported.';
-$string['remar'] = 'remar';
-$string['pluginadministration'] = 'remar administration';
-$string['pluginname'] = 'remar';
+$string['modulename'] = 'remarmoodle';
+$string['modulenameplural'] = 'remarmoodles';
+$string['modulename_help'] = 'Use the remarmoodle module for... | The remarmoodle module allows...';
+$string['remarmoodlefieldset'] = 'Custom example fieldset';
+$string['remarmoodlename'] = 'remarmoodle name';
+$string['remarmoodlename_help'] = 'This is the content of the help tooltip associated with the remarmoodlename field. Markdown syntax is supported.';
+$string['remarmoodle'] = 'remarmoodle';
+$string['pluginadministration'] = 'remarmoodle administration';
+$string['pluginname'] = 'remarmoodle';
 
 /* For settings.php file */
 $string['game1'] = 'Hangman';

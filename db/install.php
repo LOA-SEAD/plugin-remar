@@ -20,7 +20,7 @@
  * This file replaces the legacy STATEMENTS section in db/install.xml,
  * lib.php/modulename_install() post installation hook and partially defaults.php.
  *
- * @package    mod_remar
+ * @package    mod_remarmoodle
  * @copyright  2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,7 +30,7 @@
  *
  * @see upgrade_plugins_modules()
  */
-function xmldb_remar_install() {
+function xmldb_remarmoodle_install() {
 }
 
 /**
@@ -38,5 +38,5 @@ function xmldb_remar_install() {
  *
  * @see upgrade_plugins_modules()
  */
-function xmldb_remar_install_recovery() {
+function xmldb_remarmoodle_install_recovery() {
 }

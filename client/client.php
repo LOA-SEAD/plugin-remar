@@ -10,7 +10,7 @@ $token = '7e9da9bb83b1155c66a15c92bdfd7bed';
 $domainname = 'localhost/moodle';
 
 /// FUNCTION NAME
-$functionname = 'mod_remar_quiforca_update';
+$functionname = 'mod_remarmoodle_quiforca_update';
 
 /// PARAMETERS
 /*$params['params'][0]['userid'] = 4;

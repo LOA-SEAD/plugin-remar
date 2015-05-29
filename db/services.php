@@ -21,18 +21,18 @@
  */
 // We defined the web service functions to install.
 $functions = array(
-    'mod_remar_quiforca_update' => array(
-        'classname'   => 'mod_remar_external', //class name
+    'mod_remarmoodle_quiforca_update' => array(
+        'classname'   => 'mod_remarmoodle_external', //class name
         'methodname'  => 'quiforca_update',
-        'classpath'   => 'mod/remar/externallib.php',
+        'classpath'   => 'mod/remarmoodle/externallib.php',
         'description' => 'Atualiza ou adiciona um dado de tentativa do usuário.',
         'type'        => 'write',
     )
 );
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
-    'remar_service' => array(
-        'functions' => array ('mod_remar_quiforca_update'),
+    'remarmoodle_service' => array(
+        'functions' => array ('mod_remarmoodle_quiforca_update'),
         'restrictedusers' => 0,
         'enabled'=>1,
     )

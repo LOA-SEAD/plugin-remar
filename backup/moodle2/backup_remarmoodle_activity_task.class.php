@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines backup_remar_activity_task class
+ * Defines backup_remarmoodle_activity_task class
  *
- * @package   mod_remar
+ * @package   mod_remarmoodle
  * @category  backup
  * @copyright 2015 Rener Baffa da Silva <renerbaffa@gmar.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,17 +25,17 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot . '/mod/remar/backup/moodle2/backup_remar_stepslib.php');
+require_once($CFG->dirroot . '/mod/remarmoodle/backup/moodle2/backup_remarmoodle_stepslib.php');
 
 /**
- * Provides the steps to perform one complete backup of the remar instance
+ * Provides the steps to perform one complete backup of the remarmoodle instance
  *
- * @package   mod_remar
+ * @package   mod_remarmoodle
  * @category  backup
  * @copyright 2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_remar_activity_task extends backup_activity_task {
+class backup_remarmoodle_activity_task extends backup_activity_task {
 
     /**
      * No specific settings for this activity
@@ -44,10 +44,10 @@ class backup_remar_activity_task extends backup_activity_task {
     }
 
     /**
-     * Defines a backup step to store the instance data in the remar.xml file
+     * Defines a backup step to store the instance data in the remarmoodle.xml file
      */
     protected function define_my_steps() {
-        $this->add_step(new backup_remar_activity_structure_step('remar_structure', 'remar.xml'));
+        $this->add_step(new backup_remarmoodle_activity_structure_step('remarmoodle_structure', 'remarmoodle.xml'));
     }
 
     /**
@@ -61,13 +61,13 @@ class backup_remar_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot, '/');
 
-        // Link to the list of remar.
-        $search = '/('.$base.'\/mod\/remar\/index.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@REMARINDEX*$2@$', $content);
+        // Link to the list of remarmoodle.
+        $search = '/('.$base.'\/mod\/remarmoodle\/index.php\?id\=)([0-9]+)/';
+        $content = preg_replace($search, '$@REMARMOODLEINDEX*$2@$', $content);
 
-        // Link to remar view by moduleid.
-        $search = '/('.$base.'\/mod\/remar\/view.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@REMARVIEWBYID*$2@$', $content);
+        // Link to remarmoodle view by moduleid.
+        $search = '/('.$base.'\/mod\/remarmoodle\/view.php\?id\=)([0-9]+)/';
+        $content = preg_replace($search, '$@REMARMOODLEVIEWBYID*$2@$', $content);
 
         return $content;
     }

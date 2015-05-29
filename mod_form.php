@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The main remar configuration form
+ * The main remarmoodle configuration form
  *
  * It uses the standard core Moodle formslib. For more info about them, please
  * visit: http://docs.moodle.org/en/Development:lib/formslib.php
  *
- * @package    mod_remar
+ * @package    mod_remarmoodle
  * @copyright  2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,11 +32,11 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 /**
  * Module instance settings form
  *
- * @package    mod_remar
- * @copyright  2015 Your Name
+ * @package    mod_remarmoodle
+ * @copyright  2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_remar_mod_form extends moodleform_mod {
+class mod_remarmoodle_mod_form extends moodleform_mod {
 
     /**
      * Defines forms elements
@@ -53,7 +53,7 @@ class mod_remar_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('remarname', 'remar'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('remarmoodlename', 'remarmoodle'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -61,17 +61,17 @@ class mod_remar_mod_form extends moodleform_mod {
         }
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
-        $mform->addHelpButton('name', 'remarname', 'remar');
+        $mform->addHelpButton('name', 'remarmoodlename', 'remarmoodle');
 
         // Adding the standard "intro" and "introformat" fields.
         $this->add_intro_editor();
 
-        // Adding the rest of remar settings, spreading all them into this fieldset
+        // Adding the rest of remarmoodle settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'remarsetting1', 'Your remar fields go here. Replace me!');
+        $mform->addElement('static', 'label1', 'remarmoodlesetting1', 'Your remarmoodle fields go here. Replace me!');
 
-        $mform->addElement('header', 'remarfieldset', get_string('remarfieldset', 'remar'));
-        $mform->addElement('static', 'label2', 'remarsetting2', 'Your remar fields go here. Replace me!');
+        $mform->addElement('header', 'remarmoodlefieldset', get_string('remarmoodlefieldset', 'remarmoodle'));
+        $mform->addElement('static', 'label2', 'remarmoodlesetting2', 'Your remarmoodle fields go here. Replace me!');
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();

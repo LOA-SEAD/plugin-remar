@@ -15,23 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define all the restore steps that will be used by the restore_remar_activity_task
+ * Define all the restore steps that will be used by the restore_remarmoodle_activity_task
  *
- * @package   mod_remar
+ * @package   mod_remarmoodle
  * @category  backup
  * @copyright 2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Structure step to restore one remar activity
+ * Structure step to restore one remarmoodle activity
  *
- * @package   mod_remar
+ * @package   mod_remarmoodle
  * @category  backup
  * @copyright 2015 Rener Baffa da Silva <renerbaffa@gmail.adress>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_remar_activity_structure_step extends restore_activity_structure_step {
+class restore_remarmoodle_activity_structure_step extends restore_activity_structure_step {
 
     /**
      * Defines structure of path elements to be processed during the restore
@@ -41,7 +41,7 @@ class restore_remar_activity_structure_step extends restore_activity_structure_s
     protected function define_structure() {
 
         $paths = array();
-        $paths[] = new restore_path_element('remar', '/activity/remar');
+        $paths[] = new restore_path_element('remarmoodle', '/activity/remarmoodle');
 
         // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
@@ -52,7 +52,7 @@ class restore_remar_activity_structure_step extends restore_activity_structure_s
      *
      * @param array $data parsed element data
      */
-    protected function process_remar($data) {
+    protected function process_remarmoodle($data) {
         global $DB;
 
         $data = (object)$data;
@@ -72,8 +72,8 @@ class restore_remar_activity_structure_step extends restore_activity_structure_s
             $data->grade = -($this->get_mappingid('scale', abs($data->grade)));
         }
 
-        // Create the remar instance.
-        $newitemid = $DB->insert_record('remar', $data);
+        // Create the remarmoodle instance.
+        $newitemid = $DB->insert_record('remarmoodle', $data);
         $this->apply_activity_instance($newitemid);
     }
 
@@ -81,7 +81,7 @@ class restore_remar_activity_structure_step extends restore_activity_structure_s
      * Post-execution actions
      */
     protected function after_execute() {
-        // Add remar related files, no need to match by itemname (just internally handled context).
-        $this->add_related_files('mod_remar', 'intro', null);
+        // Add remarmoodle related files, no need to match by itemname (just internally handled context).
+        $this->add_related_files('mod_remarmoodle', 'intro', null);
     }
 }

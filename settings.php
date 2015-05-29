@@ -15,18 +15,18 @@ if ($ADMIN->fulltree) {
 
     $settings->add(
         new admin_setting_configcheckbox(
-            'remar/game1',
-            get_string('game1', 'remar'),
-            get_string('game1_config', 'remar'),
+            'remarmoodle/game1',
+            get_string('game1', 'remarmoodle'),
+            get_string('game1_config', 'remarmoodle'),
             0
         )
     );
 
     $settings->add(
         new admin_setting_configcheckbox(
-            'remar/game2',
-            get_string('game2', 'remar'),
-            get_string('game2_config', 'remar'),
+            'remarmoodle/game2',
+            get_string('game2', 'remarmoodle'),
+            get_string('game2_config', 'remarmoodle'),
             0
         )
     );

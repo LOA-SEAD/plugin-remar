@@ -17,7 +17,7 @@
 /**
  * Provides the restore activity task class
  *
- * @package   mod_remar
+ * @package   mod_remarmoodle
  * @category  backup
  * @copyright 2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,19 +25,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/remar/backup/moodle2/restore_remar_stepslib.php');
+require_once($CFG->dirroot . '/mod/remarmoodle/backup/moodle2/restore_remarmoodle_stepslib.php');
 
 /**
- * Restore task for the remar activity module
+ * Restore task for the remarmoodle activity module
  *
  * Provides all the settings and steps to perform complete restore of the activity.
  *
- * @package   mod_remar
+ * @package   mod_remarmoodle
  * @category  backup
  * @copyright 2015 Your Name <your@email.adress>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_remar_activity_task extends restore_activity_task {
+class restore_remarmoodle_activity_task extends restore_activity_task {
 
     /**
      * Define (add) particular settings this activity can have
@@ -51,7 +51,7 @@ class restore_remar_activity_task extends restore_activity_task {
      */
     protected function define_my_steps() {
         // We have just one structure step here.
-        $this->add_step(new restore_remar_activity_structure_step('remar_structure', 'remar.xml'));
+        $this->add_step(new restore_remarmoodle_activity_structure_step('remarmoodle_structure', 'remarmoodle.xml'));
     }
 
     /**
@@ -61,7 +61,7 @@ class restore_remar_activity_task extends restore_activity_task {
     static public function define_decode_contents() {
         $contents = array();
 
-        $contents[] = new restore_decode_content('remar', array('intro'), 'remar');
+        $contents[] = new restore_decode_content('remarmoodle', array('intro'), 'remarmoodle');
 
         return $contents;
     }
@@ -73,8 +73,8 @@ class restore_remar_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('REMARVIEWBYID', '/mod/remar/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('REMARINDEX', '/mod/remar/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('REMARMOODLEVIEWBYID', '/mod/remarmoodle/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('REMARMOODLEINDEX', '/mod/remarmoodle/index.php?id=$1', 'course');
 
         return $rules;
 
@@ -83,15 +83,15 @@ class restore_remar_activity_task extends restore_activity_task {
     /**
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
-     * remar logs. It must return one array
+     * remarmoodle logs. It must return one array
      * of {@link restore_log_rule} objects
      */
     static public function define_restore_log_rules() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('remar', 'add', 'view.php?id={course_module}', '{remar}');
-        $rules[] = new restore_log_rule('remar', 'update', 'view.php?id={course_module}', '{remar}');
-        $rules[] = new restore_log_rule('remar', 'view', 'view.php?id={course_module}', '{remar}');
+        $rules[] = new restore_log_rule('remarmoodle', 'add', 'view.php?id={course_module}', '{remarmoodle}');
+        $rules[] = new restore_log_rule('remarmoodle', 'update', 'view.php?id={course_module}', '{remarmoodle}');
+        $rules[] = new restore_log_rule('remarmoodle', 'view', 'view.php?id={course_module}', '{remarmoodle}');
 
         return $rules;
     }
@@ -109,7 +109,7 @@ class restore_remar_activity_task extends restore_activity_task {
     static public function define_restore_log_rules_for_course() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('remar', 'view all', 'index.php?id={course}', null);
+        $rules[] = new restore_log_rule('remarmoodle', 'view all', 'index.php?id={course}', null);
 
         return $rules;
     }

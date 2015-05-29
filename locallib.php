@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Internal library of functions for module remar
+ * Internal library of functions for module remarmoodle
  *
- * All the remar specific functions, needed to implement the module
+ * All the remarmoodle specific functions, needed to implement the module
  * logic, should go here. Never include this file from your lib.php!
  *
- * @package    mod_remar
+ * @package    mod_remarmoodle
  * @copyright  2015 REner Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,12 +35,12 @@ if (!defined('MOODLE_INTERNAL')) {
  *
  * @param array $things
  * @return object
- *function remar_do_something_useful(array $things) {
+ *function remarmoodle_do_something_useful(array $things) {
  *    return new stdClass();
  *}
  */
 
-function remar_quiforca_update($userid, $cm, $instanceid, $quiforca_data) {
+function remarmoodle_quiforca_update($userid, $cm, $instanceid, $quiforca_data) {
     echo '<pre>';
     var_dump($quiforca_data);
     echo '</pre>';

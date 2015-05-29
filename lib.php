@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library of interface functions and constants for module remar
+ * Library of interface functions and constants for module remarmoodle
  *
  * All the core Moodle functions, neeeded to allow the module to work
  * integrated in Moodle should be placed here.
  *
- * All the remar specific functions, needed to implement all the module
+ * All the remarmoodle specific functions, needed to implement all the module
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package    mod_remar
+ * @package    mod_remarmoodle
  * @copyright  2015 Rener Baffa da Silva <renerbaffa@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Example constant, you probably want to remove this :-)
  */
-define('REMAR_ULTIMATE_ANSWER', 42);
+define('REMARMOODLE_ULTIMATE_ANSWER', 42);
 
 /* Moodle core API */
 
@@ -46,7 +46,7 @@ define('REMAR_ULTIMATE_ANSWER', 42);
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed true if the feature is supported, null if unknown
  */
-function remar_supports($feature) {
+function remarmoodle_supports($feature) {
 
     switch($feature) {
         case FEATURE_MOD_INTRO:
@@ -63,59 +63,59 @@ function remar_supports($feature) {
 }
 
 /**
- * Saves a new instance of the remar into the database
+ * Saves a new instance of the remarmoodle into the database
  *
  * Given an object containing all the necessary data,
  * (defined by the form in mod_form.php) this function
  * will create a new instance and return the id number
  * of the new instance.
  *
- * @param stdClass $remar Submitted data from the form in mod_form.php
- * @param mod_remar_mod_form $mform The form instance itself (if needed)
- * @return int The id of the newly inserted remar record
+ * @param stdClass $remarmoodle Submitted data from the form in mod_form.php
+ * @param mod_remarmoodle_mod_form $mform The form instance itself (if needed)
+ * @return int The id of the newly inserted remarmoodle record
  */
-function remar_add_instance(stdClass $remar, mod_remar_mod_form $mform = null) {
+function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_form $mform = null) {
     global $DB;
 
-    $remar->timecreated = time();
+    $remarmoodle->timecreated = time();
 
     // You may have to add extra stuff in here.
 
-    $remar->id = $DB->insert_record('remar', $remar);
+    $remarmoodle->id = $DB->insert_record('remarmoodle', $remarmoodle);
 
-    remar_grade_item_update($remar);
+    remarmoodle_grade_item_update($remarmoodle);
 
-    return $remar->id;
+    return $remarmoodle->id;
 }
 
 /**
- * Updates an instance of the remar in the database
+ * Updates an instance of the remarmoodle in the database
  *
  * Given an object containing all the necessary data,
  * (defined by the form in mod_form.php) this function
  * will update an existing instance with new data.
  *
- * @param stdClass $remar An object from the form in mod_form.php
- * @param mod_remar_mod_form $mform The form instance itself (if needed)
+ * @param stdClass $remarmoodle An object from the form in mod_form.php
+ * @param mod_remarmoodle_mod_form $mform The form instance itself (if needed)
  * @return boolean Success/Fail
  */
-function remar_update_instance(stdClass $remar, mod_remar_mod_form $mform = null) {
+function remarmoodle_update_instance(stdClass $remarmoodle, mod_remarmoodle_mod_form $mform = null) {
     global $DB;
 
-    $remar->timemodified = time();
-    $remar->id = $remar->instance;
+    $remarmoodle->timemodified = time();
+    $remarmoodle->id = $remarmoodle->instance;
 
     // You may have to add extra stuff in here.
 
-    $result = $DB->update_record('remar', $remar);
+    $result = $DB->update_record('remarmoodle', $remarmoodle);
 
-    remar_grade_item_update($remar);
+    remarmoodle_grade_item_update($remarmoodle);
 
     return $result;
 }
 
 /**
- * Removes an instance of the remar from the database
+ * Removes an instance of the remarmoodle from the database
  *
  * Given an ID of an instance of this module,
  * this function will permanently delete the instance
@@ -124,18 +124,18 @@ function remar_update_instance(stdClass $remar, mod_remar_mod_form $mform = null
  * @param int $id Id of the module instance
  * @return boolean Success/Failure
  */
-function remar_delete_instance($id) {
+function remarmoodle_delete_instance($id) {
     global $DB;
 
-    if (! $remar = $DB->get_record('remar', array('id' => $id))) {
+    if (! $remarmoodle = $DB->get_record('remarmoodle', array('id' => $id))) {
         return false;
     }
 
     // Delete any dependent records here.
 
-    $DB->delete_records('remar', array('id' => $remar->id));
+    $DB->delete_records('remarmoodle', array('id' => $remarmoodle->id));
 
-    remar_grade_item_delete($remar);
+    remarmoodle_grade_item_delete($remarmoodle);
 
     return true;
 }
@@ -151,10 +151,10 @@ function remar_delete_instance($id) {
  * @param stdClass $course The course record
  * @param stdClass $user The user record
  * @param cm_info|stdClass $mod The course module info object or record
- * @param stdClass $remar The remar instance record
+ * @param stdClass $remarmoodle The remarmoodle instance record
  * @return stdClass|null
  */
-function remar_user_outline($course, $user, $mod, $remar) {
+function remarmoodle_user_outline($course, $user, $mod, $remarmoodle) {
 
     $return = new stdClass();
     $return->time = 0;
@@ -171,21 +171,21 @@ function remar_user_outline($course, $user, $mod, $remar) {
  * @param stdClass $course the current course record
  * @param stdClass $user the record of the user we are generating report for
  * @param cm_info $mod course module info
- * @param stdClass $remar the module instance record
+ * @param stdClass $remarmoodle the module instance record
  */
-function remar_user_complete($course, $user, $mod, $remar) {
+function remarmoodle_user_complete($course, $user, $mod, $remarmoodle) {
 }
 
 /**
  * Given a course and a time, this module should find recent activity
- * that has occurred in remar activities and print it out.
+ * that has occurred in remarmoodle activities and print it out.
  *
  * @param stdClass $course The course record
  * @param bool $viewfullnames Should we display full names
  * @param int $timestart Print activity since this timestamp
  * @return boolean True if anything was printed, otherwise false
  */
-function remar_print_recent_activity($course, $viewfullnames, $timestart) {
+function remarmoodle_print_recent_activity($course, $viewfullnames, $timestart) {
     return false;
 }
 
@@ -194,7 +194,7 @@ function remar_print_recent_activity($course, $viewfullnames, $timestart) {
  *
  * This callback function is supposed to populate the passed array with
  * custom activity records. These records are then rendered into HTML via
- * {@link remar_print_recent_mod_activity()}.
+ * {@link remarmoodle_print_recent_mod_activity()}.
  *
  * Returns void, it adds items into $activities and increases $index.
  *
@@ -206,11 +206,11 @@ function remar_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $userid check for a particular user's activity only, defaults to 0 (all users)
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
  */
-function remar_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function remarmoodle_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
 }
 
 /**
- * Prints single activity item prepared by {@link remar_get_recent_mod_activity()}
+ * Prints single activity item prepared by {@link remarmoodle_get_recent_mod_activity()}
  *
  * @param stdClass $activity activity record with added 'cmid' property
  * @param int $courseid the id of the course we produce the report for
@@ -218,7 +218,7 @@ function remar_get_recent_mod_activity(&$activities, &$index, $timestart, $cours
  * @param array $modnames as returned by {@link get_module_types_names()}
  * @param bool $viewfullnames display users' full names
  */
-function remar_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
+function remarmoodle_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
 }
 
 /**
@@ -231,7 +231,7 @@ function remar_print_recent_mod_activity($activity, $courseid, $detail, $modname
  *
  * @return boolean
  */
-function remar_cron () {
+function remarmoodle_cron () {
     return true;
 }
 
@@ -243,26 +243,26 @@ function remar_cron () {
  *
  * @return array
  */
-function remar_get_extra_capabilities() {
+function remarmoodle_get_extra_capabilities() {
     return array();
 }
 
 /* Gradebook API */
 
 /**
- * Is a given scale used by the instance of remar?
+ * Is a given scale used by the instance of remarmoodle?
  *
- * This function returns if a scale is being used by one remar
+ * This function returns if a scale is being used by one remarmoodle
  * if it has support for grading and scales.
  *
- * @param int $remarid ID of an instance of this module
+ * @param int $remarmoodleid ID of an instance of this module
  * @param int $scaleid ID of the scale
- * @return bool true if the scale is used by the given remar instance
+ * @return bool true if the scale is used by the given remarmoodle instance
  */
-function remar_scale_used($remarid, $scaleid) {
+function remarmoodle_scale_used($remarmoodleid, $scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('remar', array('id' => $remarid, 'grade' => -$scaleid))) {
+    if ($scaleid and $DB->record_exists('remarmoodle', array('id' => $remarmoodleid, 'grade' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -270,17 +270,17 @@ function remar_scale_used($remarid, $scaleid) {
 }
 
 /**
- * Checks if scale is being used by any instance of remar.
+ * Checks if scale is being used by any instance of remarmoodle.
  *
  * This is used to find out if scale used anywhere.
  *
  * @param int $scaleid ID of the scale
- * @return boolean true if the scale is used by any remar instance
+ * @return boolean true if the scale is used by any remarmoodle instance
  */
-function remar_scale_used_anywhere($scaleid) {
+function remarmoodle_scale_used_anywhere($scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('remar', array('grade' => -$scaleid))) {
+    if ($scaleid and $DB->record_exists('remarmoodle', array('grade' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -288,33 +288,33 @@ function remar_scale_used_anywhere($scaleid) {
 }
 
 /**
- * Creates or updates grade item for the given remar instance
+ * Creates or updates grade item for the given remarmoodle instance
  *
  * Needed by {@link grade_update_mod_grades()}.
  *
- * @param stdClass $remar instance object with extra cmidnumber and modname property
+ * @param stdClass $remarmoodle instance object with extra cmidnumber and modname property
  * @param bool $reset reset grades in the gradebook
  * @return void
  */
-function remar_grade_item_update($remar, $reset=NULL, $grades=NULL) {
+function remarmoodle_grade_item_update($remarmoodle, $reset=NULL, $grades=NULL) {
     global $CFG;
     if (!function_exists('grade_update')) { //workaround for buggy PHP versions
         require_once($CFG->libdir.'/gradelib.php');
     }
     
-    //return grade_update('mod/remar', $remar->course, 'mod', 'remar', $remar->id, 0, $grades, $params);
+    //return grade_update('mod/remarmoodle', $remarmoodle->course, 'mod', 'remarmoodle', $remarmoodle->id, 0, $grades, $params);
 
     $item = array();
-    $item['itemname'] = clean_param($remar->name, PARAM_NOTAGS);
+    $item['itemname'] = clean_param($remarmoodle->name, PARAM_NOTAGS);
     $item['gradetype'] = GRADE_TYPE_VALUE;
 
-    if ($remar->grade > 0) {
+    if ($remarmoodle->grade > 0) {
         $item['gradetype'] = GRADE_TYPE_VALUE;
-        $item['grademax']  = $remar->grade;
+        $item['grademax']  = $remarmoodle->grade;
         $item['grademin']  = 0;
-    } else if ($remar->grade < 0) {
+    } else if ($remarmoodle->grade < 0) {
         $item['gradetype'] = GRADE_TYPE_SCALE;
-        $item['scaleid']   = -$remar->grade;
+        $item['scaleid']   = -$remarmoodle->grade;
     } else {
         $item['gradetype'] = GRADE_TYPE_NONE;
     }
@@ -323,33 +323,33 @@ function remar_grade_item_update($remar, $reset=NULL, $grades=NULL) {
         $item['reset'] = true;
     }
 
-    grade_update('mod/remar', $remar->course, 'mod', 'remar',
-            $remar->id, 0, $grades, $item);
+    grade_update('mod/remarmoodle', $remarmoodle->course, 'mod', 'remarmoodle',
+            $remarmoodle->id, 0, $grades, $item);
 }
 
 /**
- * Delete grade item for given remar instance
+ * Delete grade item for given remarmoodle instance
  *
- * @param stdClass $remar instance object
+ * @param stdClass $remarmoodle instance object
  * @return grade_item
  */
-function remar_grade_item_delete($remar) {
+function remarmoodle_grade_item_delete($remarmoodle) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
-    return grade_update('mod/remar', $remar->course, 'mod', 'remar',
-            $remar->id, 0, null, array('deleted' => 1));
+    return grade_update('mod/remarmoodle', $remarmoodle->course, 'mod', 'remarmoodle',
+            $remarmoodle->id, 0, null, array('deleted' => 1));
 }
 
 /**
- * Update remar grades in the gradebook
+ * Update remarmoodle grades in the gradebook
  *
  * Needed by {@link grade_update_mod_grades()}.
  *
- * @param stdClass $remar instance object with extra cmidnumber and modname property
+ * @param stdClass $remarmoodle instance object with extra cmidnumber and modname property
  * @param int $userid update grade of specific user only, 0 means all participants
  */
-function remar_update_grades($remar, $userid=0, $nullifnone=true) {
+function remarmoodle_update_grades($remarmoodle, $userid=0, $nullifnone=true) {
     global $CFG, $DB;
     if (!function_exists('grade_update')) { //workaround for buggy PHP versions
         require_once($CFG->libdir.'/gradelib.php');
@@ -359,14 +359,14 @@ function remar_update_grades($remar, $userid=0, $nullifnone=true) {
     $newgrade = new stdClass();
     $newgrade->userid = $userid;
     
-    if ($remar->rawgrade != null) {
-        $newgrade->rawgrade = $remar->rawgrade;
+    if ($remarmoodle->rawgrade != null) {
+        $newgrade->rawgrade = $remarmoodle->rawgrade;
     }
     else {
         $newgrade->rawgrade = NULL;
     }
 
-    grade_update('mod/remar', $remar->course, 'mod', 'remar', $remar->id, 0, $newgrade);
+    grade_update('mod/remarmoodle', $remarmoodle->course, 'mod', 'remarmoodle', $remarmoodle->id, 0, $newgrade);
 }
 
 /* File API */
@@ -375,17 +375,17 @@ function remar_update_grades($remar, $userid=0, $nullifnone=true) {
  * menu list when adding new game 
  *
  */
-function remar_get_types(){
+function remarmoodle_get_types(){
     global $DB;
 
-    $config = get_config('remar');
+    $config = get_config('remarmoodle');
 
     $types = array();
 
     $type = new object();
     $type->modclass = MOD_CLASS_ACTIVITY;
-    $type->type = "remar_group_start";
-    $type->typestr = '--'.get_string( 'modulename', 'remar');
+    $type->type = "remarmoodle_group_start";
+    $type->typestr = '--'.get_string( 'modulename', 'remarmoodle');
     $types[] = $type;
 
     if( isset( $config->game1))
@@ -396,8 +396,8 @@ function remar_get_types(){
     { 
         $type = new object();
         $type->modclass = MOD_CLASS_ACTIVITY;
-        $type->type = "remar&amp;type=quiforca";
-        $type->typestr = get_string('game1', 'remar');
+        $type->type = "remarmoodle&amp;type=quiforca";
+        $type->typestr = get_string('game1', 'remarmoodle');
         $types[] = $type;
     }
 
@@ -409,14 +409,14 @@ function remar_get_types(){
     { 
         $type = new object();
         $type->modclass = MOD_CLASS_ACTIVITY;
-        $type->type = "remar&amp;type=mathjong";
-        $type->typestr = get_string('game2', 'remar');
+        $type->type = "remarmoodle&amp;type=mathjong";
+        $type->typestr = get_string('game2', 'remarmoodle');
         $types[] = $type;
     }
     
     $type = new object();
     $type->modclass = MOD_CLASS_ACTIVITY;
-    $type->type = "remar_group_end";
+    $type->type = "remarmoodle_group_end";
     $type->typestr = '--';
     $types[] = $type;
 
@@ -434,14 +434,14 @@ function remar_get_types(){
  * @param stdClass $context
  * @return array of [(string)filearea] => (string)description
  */
-function remar_get_file_areas($course, $cm, $context) {
+function remarmoodle_get_file_areas($course, $cm, $context) {
     return array();
 }
 
 /**
- * File browsing support for remar file areas
+ * File browsing support for remarmoodle file areas
  *
- * @package mod_remar
+ * @package mod_remarmoodle
  * @category files
  *
  * @param file_browser $browser
@@ -455,25 +455,25 @@ function remar_get_file_areas($course, $cm, $context) {
  * @param string $filename
  * @return file_info instance or null if not found
  */
-function remar_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
+function remarmoodle_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
     return null;
 }
 
 /**
- * Serves the files from the remar file areas
+ * Serves the files from the remarmoodle file areas
  *
- * @package mod_remar
+ * @package mod_remarmoodle
  * @category files
  *
  * @param stdClass $course the course object
  * @param stdClass $cm the course module object
- * @param stdClass $context the remar's context
+ * @param stdClass $context the remarmoodle's context
  * @param string $filearea the name of the file area
  * @param array $args extra arguments (itemid, path)
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
  */
-function remar_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
+function remarmoodle_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -488,28 +488,28 @@ function remar_pluginfile($course, $cm, $context, $filearea, array $args, $force
 /* Navigation API */
 
 /**
- * Extends the global navigation tree by adding remar nodes if there is a relevant content
+ * Extends the global navigation tree by adding remarmoodle nodes if there is a relevant content
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
- * @param navigation_node $navref An object representing the navigation tree node of the remar module instance
+ * @param navigation_node $navref An object representing the navigation tree node of the remarmoodle module instance
  * @param stdClass $course current course record
- * @param stdClass $module current remar instance record
+ * @param stdClass $module current remarmoodle instance record
  * @param cm_info $cm course module information
  */
-function remar_extend_navigation(navigation_node $navref, stdClass $course, stdClass $module, cm_info $cm) {
+function remarmoodle_extend_navigation(navigation_node $navref, stdClass $course, stdClass $module, cm_info $cm) {
     // TODO Delete this function and its docblock, or implement it.
 }
 
 /**
- * Extends the settings navigation with the remar settings
+ * Extends the settings navigation with the remarmoodle settings
  *
- * This function is called when the context for the page is a remar module. This is not called by AJAX
+ * This function is called when the context for the page is a remarmoodle module. This is not called by AJAX
  * so it is safe to rely on the $PAGE.
  *
  * @param settings_navigation $settingsnav complete settings navigation tree
- * @param navigation_node $remar remar administration node
+ * @param navigation_node $remarmoodle remarmoodle administration node
  */
-function remar_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $remarnode=null) {
+function remarmoodle_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $remarmoodlenode=null) {
     // TODO Delete this function and its docblock, or implement it.
 }
