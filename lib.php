@@ -80,7 +80,44 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     $remarmoodle->timecreated = time();
 
     // You may have to add extra stuff in here.
+    
+    //remarmoodle's structure:
+    /*
+     *  [name] => QuiForca
+        [game] => 3
+        [grade] => 100
+        [gradecat] => 1
+        [visible] => 1
+        [cmidnumber] => 
+        [groupmode] => 0
+        [course] => 2
+        [coursemodule] => 30
+        [section] => 3
+        [module] => 35
+        [modulename] => remarmoodle
+        [instance] => 
+        [add] => remarmoodle
+        [update] => 0
+        [return] => 0
+        [sr] => 0
+        [submitbutton2] => Salvar e voltar ao curso
+        [groupingid] => 0
+        [completion] => 0
+        [completionview] => 0
+        [completionexpected] => 0
+        [completiongradeitemnumber] => 
+        [conditiongradegroup] => Array
+            (
+            )
 
+        [conditionfieldgroup] => Array
+            (
+            )
+
+        [intro] => 
+        [introformat] => 1
+        [timecreated] => 1433785685
+     */
     $remarmoodle->id = $DB->insert_record('remarmoodle', $remarmoodle);
 
     remarmoodle_grade_item_update($remarmoodle);
@@ -369,59 +406,7 @@ function remarmoodle_update_grades($remarmoodle, $userid=0, $nullifnone=true) {
     grade_update('mod/remarmoodle', $remarmoodle->course, 'mod', 'remarmoodle', $remarmoodle->id, 0, $newgrade);
 }
 
-/* File API */
-/**
- * Returns an array of game type objects to construct
- * menu list when adding new game 
- *
- */
-function remarmoodle_get_types(){
-    global $DB;
 
-    $config = get_config('remarmoodle');
-
-    $types = array();
-
-    $type = new object();
-    $type->modclass = MOD_CLASS_ACTIVITY;
-    $type->type = "remarmoodle_group_start";
-    $type->typestr = '--'.get_string( 'modulename', 'remarmoodle');
-    $types[] = $type;
-
-    if( isset( $config->game1))
-        $hide = ($config->game1 != 0);
-    else
-        $hide = false;
-    if( $hide == false)
-    { 
-        $type = new object();
-        $type->modclass = MOD_CLASS_ACTIVITY;
-        $type->type = "remarmoodle&amp;type=quiforca";
-        $type->typestr = get_string('game1', 'remarmoodle');
-        $types[] = $type;
-    }
-
-    if( isset( $config->game2))
-        $hide = ($config->game2 != 0);
-    else
-        $hide = false;
-    if( $hide == false)
-    { 
-        $type = new object();
-        $type->modclass = MOD_CLASS_ACTIVITY;
-        $type->type = "remarmoodle&amp;type=mathjong";
-        $type->typestr = get_string('game2', 'remarmoodle');
-        $types[] = $type;
-    }
-    
-    $type = new object();
-    $type->modclass = MOD_CLASS_ACTIVITY;
-    $type->type = "remarmoodle_group_end";
-    $type->typestr = '--';
-    $types[] = $type;
-
-    return $types;
-}
 
 /**
  * Returns the lists of all browsable file areas within the given module context
