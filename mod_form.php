@@ -44,10 +44,6 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
     public function definition() {
 
         $mform = $this->_form;
-        
-        /*echo '<pre>';
-        print_r($this);
-        echo '</pre>';*/
 
         // Adding the "general" fieldset, where all the common settings are showed.
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -70,8 +66,8 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
         $mform->addElement('static', 'label1', 'remarmoodlesetting1', 'Your remarmoodle fields go here. Replace me!');
 
-        $mform->addElement('header', 'remarmoodlefieldset', get_string('remarmoodlefieldset', 'remarmoodle'));
-        $mform->addElement('static', 'label2', 'remarmoodlesetting2', 'Your remarmoodle fields go here. Replace me!');
+        /*$mform->addElement('header', 'remarmoodlefieldset', get_string('remarmoodlefieldset', 'remarmoodle'));
+        $mform->addElement('static', 'label2', 'remarmoodlesetting2', 'Your remarmoodle fields go here. Replace me!');*/
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
