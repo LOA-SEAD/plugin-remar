@@ -62,9 +62,24 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         // Adding the standard "intro" and "introformat" fields.
         $this->add_intro_editor();
 
+        
+        $json = file_get_contents('http://localhost/gamelist.json');
+        $obj = json_decode($json);
+        $attributes = null;
+        
+        $radioarray = array();
+        foreach($obj->games as $game) {
+            $radio = array();
+            $radio[] =& $mform->createElement('radio', 'game', '', $game->name, $game->id, $attributes);
+            $radio[] =& $mform->createElement('html', '<img src="'.$game->image.'" alt="$game->name" />');
+            $mform->addGroup($radio);
+            //$mform->addElement('html', '<img src="'.$game->image.'" alt="$game->name" />');
+        }
+        //$mform->addGroup($radioarray, 'radioar', 'Jogo a adicionar', array(' '), false);
+        
         // Adding the rest of remarmoodle settings, spreading all them into this fieldset
         // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'remarmoodlesetting1', 'Your remarmoodle fields go here. Replace me!');
+        //$mform->addElement('static', 'label1', 'remarmoodlesetting1', 'Your remarmoodle fields go here. Replace me!');
 
         /*$mform->addElement('header', 'remarmoodlefieldset', get_string('remarmoodlefieldset', 'remarmoodle'));
         $mform->addElement('static', 'label2', 'remarmoodlesetting2', 'Your remarmoodle fields go here. Replace me!');*/
