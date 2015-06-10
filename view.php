@@ -116,7 +116,8 @@ foreach($records as $record) {
 //print_r($data);
 $table->data = $data;
 
-echo html_writer::table($table);
+echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: 600px;min-width:100%;', 'src' => "http://localhost:8080/forca/data/1/web/"));
+echo html_writer::end_tag('iframe');
 /*echo '<pre>';
 print_r($records);
 echo '</pre>';*/
