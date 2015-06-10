@@ -103,7 +103,7 @@ $data = array();
 foreach($records as $record) {
     $organized_array['id'] = $record->id;
     $organized_array['userid'] = $record->userid;
-    $organized_array['cm'] = $record->pontos;
+    $organized_array['cm'] = $record->cm;
     $organized_array['instanece_id'] = $record->instance_id;
     $organized_array['dica'] = $record->dica;
     $organized_array['palavra'] = $record->palavra;
