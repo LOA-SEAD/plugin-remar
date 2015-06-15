@@ -79,4 +79,54 @@ class mod_remarmoodle_external extends external_api {
             )
         );
     }
+    
+    
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function create_table_parameters() {
+        return new external_function_parameters (
+            array ( 
+                'params' => new external_single_structure (
+                    array(
+                        'table_name' => new external_value(PARAM_TEXT, 'Table name', VALUE_REQUIRED),
+                        'structure' => new external_multiple_structure($structure)
+                    )
+                )
+            )
+        );
+    }
+ 
+    /**
+     * The function itself
+     * @return string welcome message
+     */
+    public static function create_table($params) {
+        global $DB;
+        
+        $validated_params = self::validate_parameters(self::create_table_parameters(), array('params' => $params));
+ 
+        $lastinsertid = $DB->insert_record('remarmoodle_quiforca', $params);
+ 
+        $ret = array (
+            'table_name' => $validated_params->table_name,
+            'structure' => $validated_params->structure
+        );
+        
+        return $ret;
+    }
+ 
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function create_table_returns() {
+        return new external_single_structure(
+            array (
+                'table_name' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
+                'structure' => new external_value(PARAM, 'Descrição')
+            )
+        );
+    }
 }
