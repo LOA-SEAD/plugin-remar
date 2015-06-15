@@ -6,24 +6,22 @@
  * and open the template in the editor.
  */
 
-$token = '6e5f05d5c4e85787f4f05bdb951c5002';
+$token = '679243871a5bca89ba09a0c87f0ed60a';
 $domainname = 'localhost/moodle';
 
 /// FUNCTION NAME
-$functionname = 'mod_remarmoodle_quiforca_update';
+$functionname = 'mod_remarmoodle_create_table';
 $restformat = 'json';
 
 /// PARAMETERS
-$now = new DateTime();
+$structure = array (
+    'field1' => 'INT',
+    'field2' => 'TEXT'
+);
+
 $params = array (
-    'userid' => 4,
-    'cm' => 2,
-    'instance_id' => 2,
-    'dica' => 'Dica',
-    'palavra' => 'palavra',
-    'contribuicao' => 'Rener Baffa da Silva',
-    'letra_escolhida' => 'J',
-    'timestamp' => $now->getTimestamp()
+    'table_name' => "new_table",
+    'structure' => json_encode($structure)
 );
 
 /// REST CALL

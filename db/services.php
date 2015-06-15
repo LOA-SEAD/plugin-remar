@@ -39,7 +39,15 @@ $functions = array(
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
     'remarmoodle_service' => array(
-        'functions' => array ('mod_remarmoodle_quiforca_update', 'mod_remarmoodle_create_table'),
+        'functions' => array ('mod_remarmoodle_quiforca_update'),
+        'restrictedusers' => 0,
+        'enabled'=> 1,
+    )
+);
+
+$services = array(
+    'remarmoodle_service' => array(
+        'functions' => array ('mod_remarmoodle_create_table'),
         'restrictedusers' => 0,
         'enabled'=> 1,
     )

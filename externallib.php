@@ -91,7 +91,7 @@ class mod_remarmoodle_external extends external_api {
                 'params' => new external_single_structure (
                     array(
                         'table_name' => new external_value(PARAM_TEXT, 'Table name', VALUE_REQUIRED),
-                        'structure' => new external_multiple_structure($structure)
+                        'structure' => new external_value(PARAM_RAW, 'Structure table string', VALUE_REQUIRED)
                     )
                 )
             )
@@ -104,14 +104,19 @@ class mod_remarmoodle_external extends external_api {
      */
     public static function create_table($params) {
         global $DB;
+        var_dump($params);
         
         $validated_params = self::validate_parameters(self::create_table_parameters(), array('params' => $params));
- 
-        $lastinsertid = $DB->insert_record('remarmoodle_quiforca', $params);
- 
+        echo "<br />";
+        echo "<br />";
+        //$lastinsertid = $DB->insert_record('remarmoodle_quiforca', $params);
+        $validated_params = $validated_params['params'];
+        $json = json_decode($validated_params['structure']);
+        var_dump($json);
+        
         $ret = array (
-            'table_name' => $validated_params->table_name,
-            'structure' => $validated_params->structure
+            'table_name' => $validated_params['params']['table_name'],
+            'structure' => $validated_params['params']['structure']
         );
         
         return $ret;
@@ -124,8 +129,8 @@ class mod_remarmoodle_external extends external_api {
     public static function create_table_returns() {
         return new external_single_structure(
             array (
-                'table_name' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
-                'structure' => new external_value(PARAM, 'Descrição')
+                'table_name' => new external_value(PARAM_TEXT, 'Table name'),
+                'structure' => new external_value(PARAM_TEXT, 'Structure')
             )
         );
     }
