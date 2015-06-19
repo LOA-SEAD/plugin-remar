@@ -15,8 +15,69 @@ $restformat = 'json';
 
 /// PARAMETERS
 $structure = array (
-    'field1' => 'INT',
-    'field2' => 'TEXT'
+    'field1' => array (
+        'name' => 'id',
+        'type' => 'INTEGER',
+        'length' => '10',
+        'notnull' => true,
+        'sequence' => true,
+        'unsigned' => true,
+        'primary' => true
+        //'comment' => 'Id'
+    ),
+    'field2' => array (
+        'name' => 'userid',
+        'type' => 'INTEGER',
+        'length' => '10',
+        'notnull' => true,
+        'sequence' => false,
+        'unsigned' => true
+        //'comment' => 'User id'
+    ),
+    'field3' => array (
+        'name' => 'instance_id',
+        'type' => 'INTEGER',
+        'length' => '10',
+        'notnull' => true,
+        'sequence' => false,
+        'unsigned' => true
+        //'comment' => 'Game instance'
+    ),
+    'field4' => array (
+        'name' => 'cm',
+        'type' => 'INTEGER',
+        'length' => '10',
+        'notnull' => true,
+        'sequence' => false,
+        'unsigned' => true
+        //'comment' => 'Id do módulo do curso'
+    ),
+    'field5' => array (
+        'name' => 'palavra',
+        'type' => 'INTEGER',
+        'length' => '10',
+        'notnull' => true,
+        'sequence' => false,
+        'unsigned' => true
+        //'comment' => 'Id da palavra'
+    ),
+    'field6' => array (
+        'name' => 'letra_escolhida',
+        'type' => 'CHAR',
+        'notnull' => true,
+        'length' => '1'
+        //'comment' => 'Letra que o jogador tentou'
+    ),
+    'field7' => array (
+        'name' => 'timestamp',
+        'type' => 'INTEGER',
+        'length' => '10',
+        'notnull' => false,
+        'sequence' => false,
+        'unsigned' => true,
+        //'comment' => 'Tempo em que a jogada foi realizada',
+        'default' => 0
+    ),
 );
 
 $params = array (

@@ -498,3 +498,50 @@ function remarmoodle_extend_navigation(navigation_node $navref, stdClass $course
 function remarmoodle_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $remarmoodlenode=null) {
     // TODO Delete this function and its docblock, or implement it.
 }
+
+
+function getError($error_code, $detail = null) {
+    $ret = array (
+        'message' => '',
+        'description' => ''
+    );
+
+    switch ($error_code) {
+        case 01:
+            $ret['message'] = 'ERROR 01: Wrong type';
+            $ret['description'] = '\''.$detail.'\' is not a valid type. You should check the documentation to know what types are supported.';
+            break;
+        
+        case 02:
+            $ret['message'] = 'ERROR 02: Wrong length';
+            $ret['description'] = 'The field \''.$detail.'\' has a invalid length. Length options for BINARY and TEXT field type are only "small", "medium" or "big".';
+            break;
+        
+        case 03:
+            $ret['message'] = 'ERROR 03: Wrong length';
+            $ret['description'] = 'The field \''.$detail.'\' has a invalid length. Length should be numeric and greater than 0.';
+            break;
+        
+        case 04:
+            $ret['message'] = 'ERROR 04: Wrong default value';
+            $ret['description'] = 'The field \''.$detail.'\' has a invalid length. Length should be numeric and greater than 0.';
+            break;
+        
+        case 05:
+            $ret['message'] = 'ERROR 05: Primary key is needed';
+            $ret['description'] = 'Table needs to have at least one primary key.';
+            break;
+        
+        case 06:
+            $ret['message'] = 'ERROR 06: Table already exists';
+            $ret['description'] = 'A table with same name already exists in the moodle. Please contact the developers to delete or solve this problem.';
+            break;
+
+        default:
+            $ret['message'] = 'Error code not found.';
+            $ret['description'] = 'Please contact the developers';
+            break;
+    }
+
+    return $ret;
+}
