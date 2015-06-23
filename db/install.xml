@@ -14,6 +14,7 @@
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="100" SEQUENCE="false" COMMENT="The maximum grade. Can be negative to indicate the use of a scale."/>
+        <FIELD NAME="url" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="URL where the game is available to play" />
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -21,22 +22,6 @@
       <INDEXES>
         <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
       </INDEXES>
-    </TABLE>
-    <TABLE NAME="remarmoodle_quiforca" COMMENT="The main table">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="User id"/>
-        <FIELD NAME="instance_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Game instance"/>
-        <FIELD NAME="dica" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Dica da palavra"/>
-        <FIELD NAME="palavra" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Palavra que o jogador deve acertar"/>
-        <FIELD NAME="contribuicao" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Autor da dica e palavra"/>
-        <FIELD NAME="cm" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="ID do módulo do curso (course module id)"/>
-        <FIELD NAME="letra_escolhida" TYPE="char" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Letra escolhida pelo jogador"/>
-        <FIELD NAME="timestamp" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-      </KEYS>
     </TABLE>
   </TABLES>
 </XMLDB>
