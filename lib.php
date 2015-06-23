@@ -78,7 +78,9 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     global $DB;
 
     $remarmoodle->timecreated = time();
-
+    echo "<p>Bla: </p><pre>";
+    
+    var_dump($remarmoodle);
     // You may have to add extra stuff in here.
     
     //remarmoodle's structure:
@@ -106,14 +108,8 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
         [completionview] => 0
         [completionexpected] => 0
         [completiongradeitemnumber] => 
-        [conditiongradegroup] => Array
-            (
-            )
-
-        [conditionfieldgroup] => Array
-            (
-            )
-
+        [conditiongradegroup] => Array()
+        [conditionfieldgroup] => Array()
         [intro] => 
         [introformat] => 1
         [timecreated] => 1433785685
