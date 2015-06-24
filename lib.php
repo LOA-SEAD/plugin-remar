@@ -520,7 +520,7 @@ function getError($error_code, $detail = null) {
         
         case 04:
             $ret['message'] = 'ERROR 04: Wrong default value';
-            $ret['description'] = 'The field \''.$detail.'\' has a invalid length. Length should be numeric and greater than 0.';
+            $ret['description'] = 'The field \''.$detail.'\' has a invalid default value. The default value type doesn\'t match with the field type.';
             break;
         
         case 05:
