@@ -30,16 +30,14 @@
  *
  * @see upgrade_plugins_modules()
  */
-require_once('../client/curl.php');
 
 function xmldb_remarmoodle_install() {
 
 	$serverurl = 'localhost:8080/moodle/save';
 
 	$curl = new curl;
-	var_dump($curl);
 
-	$resp = $curl->post($serverurl, array('password' => 'pwd', 'domain' => $_SERVER['HTTP_HOST']));
+	$resp = $curl->post($serverurl, array('domain' => $_SERVER['HTTP_HOST']));
 }
 
 /**
