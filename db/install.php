@@ -37,7 +37,7 @@ function xmldb_remarmoodle_install() {
 
 	$curl = new curl;
 
-	$resp = $curl->post($serverurl, array('password' => 'pwd', 'domain' => $_SERVER['HTTP_HOST']));
+	$resp = $curl->post($serverurl, array('domain' => $_SERVER['HTTP_HOST']));
 }
 
 /**
