@@ -67,8 +67,6 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         $obj = json_decode($json);
         $attributes = null;
         
-        $radioarray = array();
-        
         $mform->addElement('html', '<div id="test">');
         $mform->addElement('html', '<table >');
         

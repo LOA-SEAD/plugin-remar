@@ -78,9 +78,6 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     global $DB;
 
     $remarmoodle->timecreated = time();
-    echo "<p>Bla: </p><pre>";
-    
-    var_dump($remarmoodle);
     // You may have to add extra stuff in here.
     
     //remarmoodle's structure:
@@ -114,6 +111,21 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
         [introformat] => 1
         [timecreated] => 1433785685
      */
+    
+    $remarmoodle->game_id = $remarmoodle->game;
+    
+    /* To save the URL of the game */
+    $json = file_get_contents('http://localhost/gamelist.json');
+    $obj = json_decode($json);
+    
+    foreach($obj->games as $game) {
+        if(property_exists($game, "url") && $game->id == $remarmoodle->game_id) {
+            $remarmoodle->url = $game->url;
+        }
+    }
+    
+    //var_dump($remarmoodle);
+    
     $remarmoodle->id = $DB->insert_record('remarmoodle', $remarmoodle);
 
     remarmoodle_grade_item_update($remarmoodle);
