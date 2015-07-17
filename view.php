@@ -71,62 +71,20 @@ $PAGE->set_heading(format_string($course->fullname));
 // Output starts here.
 echo $OUTPUT->header();
 
-// Conditions to show the intro can change to look for own settings or whatever.
-//$bla = $DB->get_records('remarmoodle');
-//echo '<p>'.var_dump($bla).'</p>';
-
-/*if ($remarmoodle->intro) {
-    echo $OUTPUT->box(format_module_intro('remarmoodle', $remarmoodle, $cm->id), 'generalbox mod_introbox', 'remarmoodleintro');
-}*/
-
-/*$remarmoodle_content = '<p>'.get_string('test_activity_description', 'remarmoodle').'</p>';
-$remarmoodle_content .= '<form method="get" action="grade.php">';
-$remarmoodle_content .= '<input type="hidden" name="id" value="'.$cm->id.'" />';
-$remarmoodle_content .= '<input type="hidden" name="userid" value="'.$USER->id.'" />';
-$remarmoodle_content .= '<input type="number" name="questions" min="0" max="10" /><br />';
-$remarmoodle_content .= '<input type="submit" />';
-$remarmoodle_content .= '</form>';*/
-/*$remarmoodle_content = '<div><iframe src="http://sistemas2.sead.ufscar.br/loa/QuiForca/" height="600" width="900" scrolling=no frameborder="0" /></div>';
-
-echo $remarmoodle_content;*/
-
 $records = $DB->get_records('remarmoodle');
-/*$table = new html_table();
-$table->head = array('ID', 'ID do Usuário', 'Módulo do Curso', 'Instance_id', 'Dica', 'Palavra', 'Contribuição', 'Letra Escolhida', 'Data');
-
-$data = array();*/
 $url = null;
+$width = null;
+$height = null;
 
 foreach($records as $record) {
-    /*$organized_array['id'] = $record->id;
-    $organized_array['userid'] = $record->userid;
-    $organized_array['cm'] = $record->cm;
-    $organized_array['instanece_id'] = $record->instance_id;
-    $organized_array['dica'] = $record->dica;
-    $organized_array['palavra'] = $record->palavra;
-    $organized_array['contribuicao'] = $record->contribuicao;
-    $organized_array['letra_escolhida'] = $record->letra_escolhida;
-    $organized_array['timestamp'] = date("d/m/Y h:m:s", $record->timestamp);
-    array_push($data, $organized_array);
-    var_dump($record);*/
     if($record->game_id == $remarmoodle->game_id) {
         $url = $record->url;
+        $width = $record->width;
+        $height = $record->height;
     }
 }
 
-//print_r($data);
-//$table->data = $data;
-
-/*echo "<pre>";
-var_dump($_SESSION);
-echo "</pre>";*/
-
-echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: 600px;min-width:100%;', 'src' => $url));
+echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: '.$height.'px;width: '.$width.'px;', 'src' => $url));
 echo html_writer::end_tag('iframe');
-/*echo '<pre>';
-print_r($records);
-echo '</pre>';*/
 
-
-// Finish the page.
 echo $OUTPUT->footer();
