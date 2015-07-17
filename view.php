@@ -90,18 +90,15 @@ $remarmoodle_content .= '</form>';*/
 
 echo $remarmoodle_content;*/
 
-/*echo '<pre>';
-var_dump($_SESSION);
-echo '</pre>';*/
-
-$records = $DB->get_records('remarmoodle_quiforca');
-$table = new html_table();
+$records = $DB->get_records('remarmoodle');
+/*$table = new html_table();
 $table->head = array('ID', 'ID do Usuário', 'Módulo do Curso', 'Instance_id', 'Dica', 'Palavra', 'Contribuição', 'Letra Escolhida', 'Data');
 
-$data = array();
+$data = array();*/
+$url = null;
 
 foreach($records as $record) {
-    $organized_array['id'] = $record->id;
+    /*$organized_array['id'] = $record->id;
     $organized_array['userid'] = $record->userid;
     $organized_array['cm'] = $record->cm;
     $organized_array['instanece_id'] = $record->instance_id;
@@ -111,16 +108,20 @@ foreach($records as $record) {
     $organized_array['letra_escolhida'] = $record->letra_escolhida;
     $organized_array['timestamp'] = date("d/m/Y h:m:s", $record->timestamp);
     array_push($data, $organized_array);
+    var_dump($record);*/
+    if($record->game_id == $remarmoodle->game_id) {
+        $url = $record->url;
+    }
 }
 
 //print_r($data);
-$table->data = $data;
+//$table->data = $data;
 
-echo "<pre>";
+/*echo "<pre>";
 var_dump($_SESSION);
-echo "</pre>";
+echo "</pre>";*/
 
-echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: 600px;min-width:100%;', 'src' => "http://localhost:8080/forca/data/1/web/"));
+echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: 600px;min-width:100%;', 'src' => $url));
 echo html_writer::end_tag('iframe');
 /*echo '<pre>';
 print_r($records);
