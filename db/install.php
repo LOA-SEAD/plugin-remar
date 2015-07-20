@@ -33,7 +33,7 @@
 
 function xmldb_remarmoodle_install() {
 
-	$serverurl = 'localhost:8080/moodle/save';
+	$serverurl = 'http://myapp.dev:9090/moodle/save';
 
 	$curl = new curl;
 

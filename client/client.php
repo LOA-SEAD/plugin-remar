@@ -87,7 +87,7 @@ $params = array (
 
 /// REST CALL
 $serverurl = $domainname . '/webservice/rest/server.php'. '?wstoken=' . $token . '&wsfunction='.$functionname;
-require_once('./curl.php');
+require_once('../curl.php');
 $curl = new curl;
 //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
 $restformat = ($restformat == 'json')?'&moodlewsrestformat=' . $restformat:'';

@@ -115,10 +115,13 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     $remarmoodle->game_id = $remarmoodle->game;
     
     /* To save the URL of the game */
-    $json = file_get_contents('http://localhost/gamelist.json');
+    $curl = new curl();
+        //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+    $json = $curl->post('myapp.dev:9090/moodle/moodleGameList', array('domain' => $_SERVER['HTTP_HOST']));
+
     $obj = json_decode($json);
     
-    foreach($obj->games as $game) {
+    foreach($obj as $game) {
         if(property_exists($game, "url") && $game->id == $remarmoodle->game_id) {
             $remarmoodle->url = $game->url;
         }

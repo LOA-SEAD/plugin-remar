@@ -62,15 +62,20 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         // Adding the standard "intro" and "introformat" fields.
         $this->add_intro_editor();
 
+        //$json = file_get_contents('myapp.dev:9090/moodle/moodleGameList');
         
-        $json = file_get_contents('http://localhost/gamelist.json');
+        $curl = new curl();
+        //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+        $json = $curl->post('myapp.dev:9090/moodle/moodleGameList', array('domain' => $_SERVER['HTTP_HOST']));
+        
         $obj = json_decode($json);
+        
         $attributes = null;
         
         $mform->addElement('html', '<div id="test">');
         $mform->addElement('html', '<table >');
         
-        foreach($obj->games as $game) {
+        foreach($obj as $game) {
             $mform->addElement('html', '<tr>');
             $mform->addElement('html', '<td>');
             $radio =& $mform->createElement('radio', 'game', '', $game->name, $game->id, $attributes);
