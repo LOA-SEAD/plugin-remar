@@ -42,6 +42,7 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
      * Defines forms elements
      */
     public function definition() {
+        global $USER;
 
         $mform = $this->_form;
 
@@ -74,6 +75,12 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         
         $mform->addElement('html', '<div id="test">');
         $mform->addElement('html', '<table >');
+        
+        foreach ($obj->accounts as $acc) {
+            if($acc->accountName == $USER->username) {
+                echo "Equal: ".$acc->accountName." = ".$USER->username;
+            }
+        }
         
         foreach($obj->games as $game) {
             $mform->addElement('html', '<tr>');
