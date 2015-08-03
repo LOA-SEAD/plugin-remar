@@ -75,7 +75,7 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         $mform->addElement('html', '<div id="test">');
         $mform->addElement('html', '<table >');
         
-        foreach($obj as $game) {
+        foreach($obj->games as $game) {
             $mform->addElement('html', '<tr>');
             $mform->addElement('html', '<td>');
             $radio =& $mform->createElement('radio', 'game', '', $game->name, $game->id, $attributes);
