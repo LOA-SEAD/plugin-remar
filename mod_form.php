@@ -71,30 +71,32 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         
         $obj = json_decode($json);
         
-        $attributes = null;
-        
         $mform->addElement('html', '<div id="test">');
-        $mform->addElement('html', '<table >');
-        
-        foreach ($obj->accounts as $acc) {
-            if($acc->accountName == $USER->username) {
-                echo "Equal: ".$acc->accountName." = ".$USER->username;
-            }
-        }
+        $mform->addElement('html', '<table>');
         
         foreach($obj->games as $game) {
-            $mform->addElement('html', '<tr>');
-            $mform->addElement('html', '<td>');
-            $radio =& $mform->createElement('radio', 'game', '', $game->name, $game->id, $attributes);
-            $mform->addElement($radio);
-            $mform->addElement('html', '</td>');
-            $mform->addElement('html', '<td align="center">');
-            $mform->addElement('html', '<label for="id_game_'.$game->id.'">');
-            $image =& $mform->createElement('html', '<img src="'.$game->image.'" alt="'.$game->name.'" />');
-            $mform->addElement($image);
-            $mform->addElement('html', '</label>');
-            $mform->addElement('html', '</td>');
-            $mform->addElement('html', '</tr>');
+            $canShow = false;
+            foreach ($game->accounts as $acc) {
+                if($acc->accountName == $USER->username) {
+                    $canShow = true;
+                    break;
+                }
+            }
+            
+            if($canShow) {
+                $mform->addElement('html', '<tr>');
+                $mform->addElement('html', '<td>');
+                $radio =& $mform->createElement('radio', 'game', '', $game->name, $game->id, null);
+                $mform->addElement($radio);
+                $mform->addElement('html', '</td>');
+                $mform->addElement('html', '<td align="center">');
+                $mform->addElement('html', '<label for="id_game_'.$game->id.'">');
+                $image =& $mform->createElement('html', '<img src="'.$game->image.'" alt="'.$game->name.'" />');
+                $mform->addElement($image);
+                $mform->addElement('html', '</label>');
+                $mform->addElement('html', '</td>');
+                $mform->addElement('html', '</tr>');
+            }
         }
         
         $mform->addElement('html', '</table>');
