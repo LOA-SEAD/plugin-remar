@@ -121,13 +121,15 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
 
     $obj = json_decode($json);
     
-    foreach($obj as $game) {
-        if(property_exists($game, "url") && $game->id == $remarmoodle->game_id) {
-            $remarmoodle->url = $game->url;
+    foreach($obj->games as $game) {
+        if(property_exists($game, "moodleUrl") && $game->id == $remarmoodle->game_id) {
+            $remarmoodle->url = $game->moodleUrl;
         }
     }
     
+    //echo "<br /><br />remarmoodle: ";
     //var_dump($remarmoodle);
+    //die();
     
     $remarmoodle->id = $DB->insert_record('remarmoodle', $remarmoodle);
 
