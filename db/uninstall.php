@@ -28,5 +28,17 @@
  * Custom uninstallation procedure
  */
 function xmldb_remarmoodle_uninstall() {
+    $removeUrl = 'http://myapp.dev:9090/moodle/remove';
+    //$domain = 'sead.ufscar';
+    $domain = $_SERVER['HTTP_HOST'];
+    
+    $curl = new curl();
+    //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+    $json = $curl->post($removeUrl, array('domain' => $domain));
+
+    $obj = json_decode($json);
+    var_dump($obj);
+    die();
+    
     return true;
 }
