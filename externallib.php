@@ -75,7 +75,15 @@ class mod_remarmoodle_external extends external_api {
         );
     }
     
-    
+
+
+
+
+
+
+
+
+
     /**
      * Returns description of method parameters
      * @return external_function_parameters
@@ -83,12 +91,7 @@ class mod_remarmoodle_external extends external_api {
     public static function create_table_parameters() {
         return new external_function_parameters (
             array ( 
-                'params' => new external_single_structure (
-                    array(
-                        'table_name' => new external_value(PARAM_TEXT, 'Table name', VALUE_REQUIRED),
-                        'structure' => new external_value(PARAM_RAW, 'Structure table string', VALUE_REQUIRED)
-                    )
-                )
+                'json' => new external_value(PARAM_TEXT, 'Json describing the structure of the table to be created', VALUE_REQUIRED)
             )
         );
     }
@@ -97,39 +100,39 @@ class mod_remarmoodle_external extends external_api {
      * The function itself
      * @return string welcome message
      */
-    public static function create_table($params) {
+    public static function create_table($json) {
         global $DB;
         $dbman = $DB->get_manager();
         try {
-            $validated_params = self::validate_parameters(self::create_table_parameters(), array('params' => $params));
+            $validated_params = self::validate_parameters(self::create_table_parameters(), array('json' => $json));
 
             $keys = array();
 
-            $json = json_decode($validated_params['params']['structure']);
-            $table_name = "".$validated_params['params']['table_name'];
-
+            $new_json = json_decode($validated_params['json']);
+            $table_name = "remarmoodle_".$new_json->table_name;
+            
             if(!$dbman->table_exists($table_name) ) {
                 $table = new xmldb_table($table_name);
-
+                
                 $idField = new xmldb_field("id");
-                $idField->set_attributes(XMLDB_TYPE_INTEGER, 10, false, true, true, false);
-
+                $idField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+                
                 $cmField = new xmldb_field("cm");
-                $cmField->set_attributes(XMLDB_TYPE_INTEGER, 10, false, true, true, false);
-
+                $cmField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+                
                 $userIdField = new xmldb_field("user_id");
-                $userIdField->set_attributes(XMLDB_TYPE_INTEGER, 10, false, true, true, false);
+                $userIdField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
-                $idKey = new xmldb_key('primary_key');
-                $idKey->set_attributes(XMLDB_KEY_PRIMARY, $idKey);
-
-                $table->addKey($idKey);
+                $key1 = new xmldb_key('primary');
+                $key1->set_attributes(XMLDB_KEY_PRIMARY, array('id'), null, null);
 
                 $table->addField($idField);
                 $table->addField($cmField);
                 $table->addField($userIdField);
 
-                foreach($json as $raw_field) {
+                $table->addKey($key1);
+
+                foreach($new_json->structure as $raw_field) {
                     if ($raw_field->name != "id" && $raw_field->name != "cm" && $raw_field->name != "user_id") {
                         $type = null;
                         $length = null;
@@ -275,36 +278,27 @@ class mod_remarmoodle_external extends external_api {
 
                         $field->set_attributes($type, $length, $unsigned, $notnull, $sequence, $default);
 
-                        $key = null;
-
-                        if (!is_null($raw_field->primary) && !empty($raw_field->primary) && is_bool($raw_field->primary)) {
-                            $keys[] = $raw_field->name;
-                        }
-
                         $table->addField($field);
                     }
                 }
 
-                if(!empty($keys)) {
-                    $key = new xmldb_key('primary_key');
-                    $key->set_attributes(XMLDB_KEY_PRIMARY, $keys);
-
-                    $table->addKey($key);
-                    $status = $dbman->create_table($table);
-                }
-                else {
-                    $ret = getError(5);
-                    return $ret;
-                }
-
+                $status = $dbman->create_table($table);
+                
                 $ret = array (
                     'message' => 'Success',
-                    'description' => 'Table \''.$table_name.'\' was successfully created.'
+                    'description' => '-SUCCESS!!-'
                 );
+                
+                return $ret;    
             }
+            else {
+                $ret = array (
+                    'message' => 'Error',
+                    'description' => "There is a table called \'".$table_name."\' already."
+                );
 
-            $ret = getError(6);
-            return $ret;
+                return $ret;
+            }
         }
         catch(Exception $e) {
             $ret = array (
@@ -328,4 +322,10 @@ class mod_remarmoodle_external extends external_api {
             )
         );
     }
+
+
+
+
+    
+
 }

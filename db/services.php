@@ -42,10 +42,7 @@ $services = array(
         'functions' => array ('mod_remarmoodle_quiforca_update'),
         'restrictedusers' => 0,
         'enabled'=> 1,
-    )
-);
-
-$services = array(
+    ),
     'remarmoodle_service' => array(
         'functions' => array ('mod_remarmoodle_create_table'),
         'restrictedusers' => 0,

@@ -28,7 +28,7 @@
  * Custom uninstallation procedure
  */
 function xmldb_remarmoodle_uninstall() {
-    $removeUrl = 'http://myapp.dev:9090/moodle/remove';
+    $removeUrl = 'http://localhost:9090/moodle/remove';
     //$domain = 'sead.ufscar';
     $domain = $_SERVER['HTTP_HOST'];
     

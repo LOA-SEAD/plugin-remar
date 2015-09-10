@@ -67,7 +67,7 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         
         $curl = new curl();
         //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
-        $json = $curl->post('myapp.dev:9090/moodle/moodleGameList', array('domain' => $_SERVER['HTTP_HOST']));
+        $json = $curl->post('localhost:9090/moodle/resources_list', array('domain' => $_SERVER['HTTP_HOST']));
         
         $obj = json_decode($json);
         
