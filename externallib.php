@@ -326,6 +326,50 @@ class mod_remarmoodle_external extends external_api {
 
 
 
-    
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function link_remar_user_parameters() {
+        return new external_function_parameters (
+            array (
+                'user_id' => new external_value(PARAM_TEXT, 'This is the user id from REMAR to be saved in the moodle.', VALUE_REQUIRED)
+            )
+        );
+    }
+
+    /**
+     * The function itself
+     * @return string welcome message
+     */
+    public static function link_remar_user($user_id) {
+        global $DB;
+
+        $validated_params = self::validate_parameters(self::link_remar_user_parameters(), array('user_id' => $user_id));
+
+        $remarmoodle_user["hash"] = hash('sha256', 'remar'.$user_id);
+        $remarmoodle_user["user_id"] = $user_id;
+        $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
+
+        $ret = array (
+            'code' => $lastinsertid,
+            'description' => 'ID do último item inserido no banco.'
+        );
+
+        return $ret;
+    }
+
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function link_remar_user_returns() {
+        return new external_single_structure(
+            array (
+                'code' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
+                'description' => new external_value(PARAM_TEXT, 'Descrição')
+            )
+        );
+    }
 
 }
