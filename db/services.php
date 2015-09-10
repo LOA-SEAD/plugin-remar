@@ -34,18 +34,30 @@ $functions = array(
         'classpath'   => 'mod/remarmoodle/externallib.php',
         'description' => 'Cria uma nova tabela no BD para um novo game.',
         'type'        => 'write'
+    ),
+    'mod_remarmoodle_link_remar_user' => array (
+        'classname'   => 'mod_remarmoodle_external',
+        'methodname'  => 'link_remar_user',
+        'classpath'   => 'mod/remarmoodle/externallib.php',
+        'description' => 'Vincula um usuário do remar com um usuário no moodle.',
+        'type'        => 'write'
     )
 );
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
     'remarmoodle_service' => array(
-        'functions' => array ('mod_remarmoodle_quiforca_update'),
+        'functions' => array ('mod_remarmoodle_quiforca_update', 'mod_remarmoodle_create_table', 'mod_remarmoodle_link_remar_user'),
         'restrictedusers' => 0,
-        'enabled'=> 1,
-    ),
+        'enabled'=> 1
+    )/*,
     'remarmoodle_service' => array(
         'functions' => array ('mod_remarmoodle_create_table'),
         'restrictedusers' => 0,
-        'enabled'=> 1,
-    )
+        'enabled'=> 1
+    ),
+    'remarmoodle_service' => array (
+        'functions' => array ('mod_remarmoodle_link_remar_user'),
+        'restictedusers' => 0,
+        'enabled' => 1
+    )*/
 );
