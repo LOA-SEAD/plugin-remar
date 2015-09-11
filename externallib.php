@@ -355,17 +355,44 @@ class mod_remarmoodle_external extends external_api {
         $remarmoodle_user->remar_user_id = $validated_params["remar_user_id"];
         $remarmoodle_user->moodle_username = $validated_params["moodle_username"];
 
+        //$lastinsertid = 1;
+        $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
+
+        email_to_user();
+
+        $remar_user = $DB->get_record('user', array('username' => 'remar'));
+        $destination_user = $DB->get_record('user', array('username' => $moodle_username));
+
+        $fromUser = new stdClass();
+        $fromUser->email = $remar_user->email;
+        $fromUser->firstname = $remar_user->firstname;
+        $fromUser->lastname = $remar_user->lastname;
+        $fromUser->maildisplay = true;
+        $fromUser->mailformat = 1;
+        $fromUser->id = $remar_user->id;
+
+        $toUser = new stdClass();
+        $toUser->email = $destination_user->email;
+        $toUser->firstname = $destination_user->firstname;
+        $toUser->lastname = $destination_user->lastname;
+        $toUser->maildisplay = true;
+        $toUser->mailformat = 1;
+        $toUser->id = $destination_user->id;
+
+        $subject = "Email de confirmação de vínculo do REMAR com o moodle";
+        $messageHtml = "Por favor, acesse o link abaixo ou copie e cole no seu navegador para finalizar a vinculação de sua conta no REMAR com o Moodle '".$_SERVER['HTTP_HOST']."': <br /><br />http://remar.dc.ufscar.br/moodle/".$remarmoodle_user->hash;
+        $messageText = html_to_text($messageHtml);
+
+        email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);
+
         /*$ret = array (
             'code' => $lastinsertid,
-            'description' => '$remarmoodle_user["user_id"] = '.$remarmoodle_user["user_id"].' -- $remarmoodle_user["moodle_username"] = '.$validated_params["moodle_username"]
-        );
-        return $ret;*/
-
-        $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
+            'description' => '$messageText: '.$messageText
+        );*/
 
         $ret = array (
             'code' => $lastinsertid,
-            'description' => 'Sucesso! Este é o ID do último item inserido no banco.'
+            'description' => 'Sucesso! Este é o ID do último item inserido no banco. Email enviado.'
         );
 
         return $ret;

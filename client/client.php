@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-$token = '49924801af14e6fad85beeb90767944c';
+$token = '972a7db37773bf9edd86b71aae49d346';
 $domainname = 'localhost/moodle';
 
 /// FUNCTION NAME
