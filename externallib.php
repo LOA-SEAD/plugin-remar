@@ -326,6 +326,8 @@ class mod_remarmoodle_external extends external_api {
 
 
 
+    
+
     /**
      * Returns description of method parameters
      * @return external_function_parameters
@@ -333,7 +335,8 @@ class mod_remarmoodle_external extends external_api {
     public static function link_remar_user_parameters() {
         return new external_function_parameters (
             array (
-                'user_id' => new external_value(PARAM_TEXT, 'This is the user id from REMAR to be saved in the moodle.', VALUE_REQUIRED)
+                'remar_user_id' => new external_value(PARAM_TEXT, 'This is the user id from REMAR to be saved in the moodle.', VALUE_REQUIRED),
+                'moodle_username' => new external_value(PARAM_TEXT, 'This is the user\'s username from moodle informed by the user in REMAR.', VALUE_REQUIRED)
             )
         );
     }
@@ -342,18 +345,20 @@ class mod_remarmoodle_external extends external_api {
      * The function itself
      * @return string welcome message
      */
-    public static function link_remar_user($user_id) {
+    public static function link_remar_user($remar_user_id, $moodle_username) {
         global $DB;
 
-        $validated_params = self::validate_parameters(self::link_remar_user_parameters(), array('user_id' => $user_id));
+        $validated_params = self::validate_parameters(self::link_remar_user_parameters(), array('remar_user_id' => $remar_user_id, 'moodle_username' => $moodle_username));
 
-        $remarmoodle_user["hash"] = hash('sha256', 'remar'.$user_id);
-        $remarmoodle_user["user_id"] = $user_id;
+        $remarmoodle_user["hash"] = hash('sha256', 'remar'.$validated_params["remar_user_id"]);
+        $remarmoodle_user["user_id"] = $validated_params["remar_user_id"];
+        $remarmoodle_user["moodle_user"] = $validated_params["moodle_username"];
+
         $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
 
         $ret = array (
             'code' => $lastinsertid,
-            'description' => 'ID do último item inserido no banco.'
+            'description' => 'Sucesso! Este é o ID do último item inserido no banco.'
         );
 
         return $ret;
