@@ -326,7 +326,7 @@ class mod_remarmoodle_external extends external_api {
 
 
 
-    
+
 
     /**
      * Returns description of method parameters
@@ -335,8 +335,8 @@ class mod_remarmoodle_external extends external_api {
     public static function link_remar_user_parameters() {
         return new external_function_parameters (
             array (
-                'remar_user_id' => new external_value(PARAM_TEXT, 'This is the user id from REMAR to be saved in the moodle.', VALUE_REQUIRED),
-                'moodle_username' => new external_value(PARAM_TEXT, 'This is the user\'s username from moodle informed by the user in REMAR.', VALUE_REQUIRED)
+                'remar_user_id' => new external_value(PARAM_TEXT, 'This is the user id from REMAR to be saved in the moodle.'),
+                'moodle_username' => new external_value(PARAM_TEXT, 'This is the user\'s username from moodle informed by the user in REMAR.')
             )
         );
     }
@@ -350,9 +350,16 @@ class mod_remarmoodle_external extends external_api {
 
         $validated_params = self::validate_parameters(self::link_remar_user_parameters(), array('remar_user_id' => $remar_user_id, 'moodle_username' => $moodle_username));
 
-        $remarmoodle_user["hash"] = hash('sha256', 'remar'.$validated_params["remar_user_id"]);
-        $remarmoodle_user["user_id"] = $validated_params["remar_user_id"];
-        $remarmoodle_user["moodle_user"] = $validated_params["moodle_username"];
+        $remarmoodle_user = new stdClass();
+        $remarmoodle_user->hash = hash('sha256', 'remar'.$validated_params["remar_user_id"]);
+        $remarmoodle_user->remar_user_id = $validated_params["remar_user_id"];
+        $remarmoodle_user->moodle_username = $validated_params["moodle_username"];
+
+        /*$ret = array (
+            'code' => $lastinsertid,
+            'description' => '$remarmoodle_user["user_id"] = '.$remarmoodle_user["user_id"].' -- $remarmoodle_user["moodle_username"] = '.$validated_params["moodle_username"]
+        );
+        return $ret;*/
 
         $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
 
