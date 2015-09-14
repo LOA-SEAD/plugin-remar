@@ -358,7 +358,7 @@ class mod_remarmoodle_external extends external_api {
         //$lastinsertid = 1;
         $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
 
-        email_to_user();
+        //email_to_user();
 
         $remar_user = $DB->get_record('user', array('username' => 'remar'));
         $destination_user = $DB->get_record('user', array('username' => $moodle_username));
@@ -403,6 +403,91 @@ class mod_remarmoodle_external extends external_api {
      * @return external_description
      */
     public static function link_remar_user_returns() {
+        return new external_single_structure(
+            array (
+                'code' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
+                'description' => new external_value(PARAM_TEXT, 'Descrição')
+            )
+        );
+    }
+
+
+
+
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function token_verifier_parameters() {
+        return new external_function_parameters (
+            array (
+                'hash' => new external_value(PARAM_TEXT, 'User hash.')
+            )
+        );
+    }
+
+    /**
+     * The function itself
+     * @return string welcome message
+     */
+    public static function token_verifier($hash) {
+        global $DB;
+
+        $validated_params = self::validate_parameters(self::link_remar_user_parameters(), array('hash' => $hash));
+
+        /*$remarmoodle_user = new stdClass();
+        $remarmoodle_user->hash = hash('sha256', 'remar'.$validated_params["remar_user_id"]);
+        $remarmoodle_user->remar_user_id = $validated_params["remar_user_id"];
+        $remarmoodle_user->moodle_username = $validated_params["moodle_username"];
+
+        //$lastinsertid = 1;
+        $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
+
+        //email_to_user();
+
+        $remar_user = $DB->get_record('user', array('username' => 'remar'));
+        $destination_user = $DB->get_record('user', array('username' => $moodle_username));
+
+        $fromUser = new stdClass();
+        $fromUser->email = $remar_user->email;
+        $fromUser->firstname = $remar_user->firstname;
+        $fromUser->lastname = $remar_user->lastname;
+        $fromUser->maildisplay = true;
+        $fromUser->mailformat = 1;
+        $fromUser->id = $remar_user->id;
+
+        $toUser = new stdClass();
+        $toUser->email = $destination_user->email;
+        $toUser->firstname = $destination_user->firstname;
+        $toUser->lastname = $destination_user->lastname;
+        $toUser->maildisplay = true;
+        $toUser->mailformat = 1;
+        $toUser->id = $destination_user->id;
+
+        $subject = "Email de confirmação de vínculo do REMAR com o moodle";
+        $messageHtml = "Por favor, acesse o link abaixo ou copie e cole no seu navegador para finalizar a vinculação de sua conta no REMAR com o Moodle '".$_SERVER['HTTP_HOST']."': <br /><br />http://remar.dc.ufscar.br/moodle/".$remarmoodle_user->hash;
+        $messageText = html_to_text($messageHtml);
+
+        email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);
+
+        /*$ret = array (
+            'code' => $lastinsertid,
+            'description' => '$messageText: '.$messageText
+        );*/
+
+        $ret = array (
+            'code' => $validated_params['hash'],
+            'description' => 'Sucesso! Este é o ID do último item inserido no banco. Email enviado.'
+        );
+
+        return $ret;
+    }
+
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function token_verifier_returns() {
         return new external_single_structure(
             array (
                 'code' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),

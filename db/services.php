@@ -41,12 +41,19 @@ $functions = array(
         'classpath'   => 'mod/remarmoodle/externallib.php',
         'description' => 'Vincula um usuário do remar com um usuário no moodle.',
         'type'        => 'write'
+    ),
+    'mod_remarmoodle_token_verifier' => array (
+        'classname'   => 'mod_remarmoodle_external',
+        'methodname'  => 'token_verifier',
+        'classpath'   => 'mod/remarmoodle/externallib.php',
+        'description' => 'Retorna o usuário com base no token recebido.',
+        'type'        => 'write'
     )
 );
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
     'remarmoodle_service' => array(
-        'functions' => array ('mod_remarmoodle_quiforca_update', 'mod_remarmoodle_create_table', 'mod_remarmoodle_link_remar_user'),
+        'functions' => array ('mod_remarmoodle_quiforca_update', 'mod_remarmoodle_create_table', 'mod_remarmoodle_link_remar_user', 'mod_remarmoodle_token_verifier'),
         'restrictedusers' => 0,
         'enabled'=> 1
     )/*,
