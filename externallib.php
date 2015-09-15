@@ -391,7 +391,7 @@ class mod_remarmoodle_external extends external_api {
         );*/
 
         $ret = array (
-            'code' => $lastinsertid,
+            'lastinsert_id' => $lastinsertid,
             'description' => 'Sucesso! Este é o ID do último item inserido no banco. Email enviado.'
         );
 
@@ -405,7 +405,7 @@ class mod_remarmoodle_external extends external_api {
     public static function link_remar_user_returns() {
         return new external_single_structure(
             array (
-                'code' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
+                'lastinsert_id' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
                 'description' => new external_value(PARAM_TEXT, 'Descrição')
             )
         );
@@ -433,15 +433,13 @@ class mod_remarmoodle_external extends external_api {
     public static function token_verifier($hash) {
         global $DB;
 
-        $validated_params = self::validate_parameters(self::link_remar_user_parameters(), array('hash' => $hash));
+        $validated_params = self::validate_parameters(self::token_verifier_parameters(), array('hash' => $hash));
 
         $user = $DB->get_record('remarmoodle_user', array('hash' => $validated_params['hash']));
-
-
-
+        
         $ret = array (
-            'code' => $validated_params['hash'],
-            'description' => 'Sucesso!'.$user
+            'username' => $user->moodle_username,
+            'description' => 'Moodle username'
         );
 
         return $ret;
@@ -454,7 +452,7 @@ class mod_remarmoodle_external extends external_api {
     public static function token_verifier_returns() {
         return new external_single_structure(
             array (
-                'code' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
+                'username' => new external_value(PARAM_TEXT, 'User.'),
                 'description' => new external_value(PARAM_TEXT, 'Descrição')
             )
         );

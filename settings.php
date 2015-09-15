@@ -13,7 +13,7 @@ if ($ADMIN->fulltree) {
 
     // General settings
 
-    $settings->add(
+    /*$settings->add(
         new admin_setting_configcheckbox(
             'remarmoodle/game1',
             get_string('game1', 'remarmoodle'),
@@ -29,5 +29,5 @@ if ($ADMIN->fulltree) {
             get_string('game2_config', 'remarmoodle'),
             0
         )
-    );
+    );*/
 }
