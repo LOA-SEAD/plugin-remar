@@ -33,11 +33,16 @@
 
 function xmldb_remarmoodle_install() {
 
-	$serverurl = 'http://remar.dc.ufscar.br/moodle/save';
+	$serverurl = 'http://remar.dc.ufscar.br:8080/moodle/save';
+	
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $serverurl);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, array('domain' => $_SERVER['HTTP_HOST'], 'name' => 'Moodle do REMAR'));
 
-	$curl = new curl;
+	$resp = curl_exec($ch);
 
-	$resp = $curl->post($serverurl, array('domain' => $_SERVER['HTTP_HOST'], 'name' => 'Moodle do REMAR'));
+	curl_close($ch);
 }
 
 /**
