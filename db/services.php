@@ -21,7 +21,7 @@
  */
 // We defined the web service functions to install.
 $functions = array(
-    'mod_remarmoodle_quiforca_update' => array(
+    'mod_remarmoodle_insert_record' => array(
         'classname'   => 'mod_remarmoodle_external', //class name
         'methodname'  => 'insert_record',
         'classpath'   => 'mod/remarmoodle/externallib.php',
