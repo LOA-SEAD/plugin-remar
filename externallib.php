@@ -13,19 +13,11 @@ class mod_remarmoodle_external extends external_api {
      * Returns description of method parameters
      * @return external_function_parameters
      */
-    public static function quiforca_update_parameters() {
-        /*return new external_function_parameters(
-            array('PARAM1' => new external_value(PARAM_TEXT, 'The welcome message. By default it is "Hello world,"', VALUE_DEFAULT, 'Hello world, '))
-        );*/
-        
+    public static function insert_record_parameters() {
         return new external_function_parameters (
-            array ( 
-                'params' => new external_single_structure (
-                    array(
-                        'table_name' => new external_value(PARAM_TEXT, 'Table name where the data is going to be saved.', VALUE_REQUIRED),
-                        'json' => new external_value(PARAM_TEXT, 'Json with the content', VALUE_REQUIRED)
-                    )
-                )
+            array (
+                'table_name' => new external_value(PARAM_TEXT, 'Table name where the data is going to be saved.'),
+                'json' => new external_value(PARAM_TEXT, 'Json with the content.')
             )
         );
     }
@@ -34,13 +26,13 @@ class mod_remarmoodle_external extends external_api {
      * The function itself
      * @return string welcome message
      */
-    public static function quiforca_update($params) {
+    public static function insert_record($params) {
         global $DB;
         
         //Parameters validation
-        $validated_params = self::validate_parameters(self::quiforca_update_parameters(), array('params' => $params));
+        $validated_params = self::validate_parameters(self::insert_record_parameters(), array('params' => $params));
  
-        $lastinsertid = $DB->insert_record('remarmoodle_quiforca', $params);
+        $lastinsertid = $DB->insert_record('remarmoodle_'.$validated_params['table_name'], $params);
  
         $ret = array (
             'code' => $lastinsertid,
@@ -54,7 +46,7 @@ class mod_remarmoodle_external extends external_api {
      * Returns description of method result value
      * @return external_description
      */
-    public static function quiforca_update_returns() {
+    public static function insert_record_returns() {
         /*return new external_single_structure (
             array(
                 'userid' => new external_value(PARAM_INT, 'ID do usuário'),
