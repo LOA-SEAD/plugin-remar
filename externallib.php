@@ -115,12 +115,16 @@ class mod_remarmoodle_external extends external_api {
                 $userIdField = new xmldb_field("user_id");
                 $userIdField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
+		$remarResourceId = new xmldb_field("remar_resource_id");
+		$remarResourceId->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
                 $key1 = new xmldb_key('primary');
                 $key1->set_attributes(XMLDB_KEY_PRIMARY, array('id'), null, null);
 
                 $table->addField($idField);
                 $table->addField($cmField);
                 $table->addField($userIdField);
+                $table->addField($remarResourceId);
 
                 $table->addKey($key1);
 
