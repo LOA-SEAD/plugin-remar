@@ -27,14 +27,18 @@
 /**
  * Custom uninstallation procedure
  */
+
 function xmldb_remarmoodle_uninstall() {
-    $removeUrl = 'http://localhost:9090/moodle/remove';
-    //$domain = 'sead.ufscar';
-    $domain = $_SERVER['HTTP_HOST'];
-    
-    $curl = new curl();
-    //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
-    $json = $curl->post($removeUrl, array('domain' => $domain));
+	$serverurl = 'http://remar.dc.ufscar.br:8080/moodle/remove';
+		
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $serverurl);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, array('domain' => $_SERVER['HTTP_HOST']);
+
+	$resp = curl_exec($ch);
+
+	curl_close($ch);
 
     return true;
 }

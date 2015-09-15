@@ -376,7 +376,7 @@ class mod_remarmoodle_external extends external_api {
         $toUser->id = $destination_user->id;
 
         $subject = "Email de confirmação de vínculo do REMAR com o moodle";
-        $messageHtml = "Por favor, acesse o link abaixo ou copie e cole no seu navegador para finalizar a vinculação de sua conta no REMAR com o Moodle '".$_SERVER['HTTP_HOST']."': <br /><br />http://".$_SERVER['HTTP_HOST']."/moodle/confirm/".$remarmoodle_user->hash;
+        $messageHtml = "Por favor, acesse o link abaixo ou copie e cole no seu navegador para finalizar a vinculação de sua conta no REMAR com o Moodle '".$_SERVER['HTTP_HOST']."': <br /><br />http://remar.dc.ufscar.br:8080/moodle/confirm/".$remarmoodle_user->hash;
         $messageText = html_to_text($messageHtml);
 
         email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);

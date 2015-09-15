@@ -32,7 +32,6 @@
  */
 
 function xmldb_remarmoodle_install() {
-
 	$serverurl = 'http://remar.dc.ufscar.br:8080/moodle/save';
 	
 	$ch = curl_init();
