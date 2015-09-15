@@ -343,7 +343,7 @@ class mod_remarmoodle_external extends external_api {
         $validated_params = self::validate_parameters(self::link_remar_user_parameters(), array('remar_user_id' => $remar_user_id, 'moodle_username' => $moodle_username));
 
         $remarmoodle_user = new stdClass();
-        $remarmoodle_user->hash = hash('sha256', 'remar'.$validated_params["remar_user_id"]);
+        $remarmoodle_user->hash = hash('sha256', 'remar'.$validated_params["moodle_username"]);
         $remarmoodle_user->remar_user_id = $validated_params["remar_user_id"];
         $remarmoodle_user->moodle_username = $validated_params["moodle_username"];
 
@@ -372,7 +372,7 @@ class mod_remarmoodle_external extends external_api {
         $toUser->id = $destination_user->id;
 
         $subject = "Email de confirmação de vínculo do REMAR com o moodle";
-        $messageHtml = "Por favor, acesse o link abaixo ou copie e cole no seu navegador para finalizar a vinculação de sua conta no REMAR com o Moodle '".$_SERVER['HTTP_HOST']."': <br /><br />http://remar.dc.ufscar.br/moodle/".$remarmoodle_user->hash;
+        $messageHtml = "Por favor, acesse o link abaixo ou copie e cole no seu navegador para finalizar a vinculação de sua conta no REMAR com o Moodle '".$_SERVER['HTTP_HOST']."': <br /><br />http://".$_SERVER['HTTP_HOST']."/moodle/confirm/".$remarmoodle_user->hash;
         $messageText = html_to_text($messageHtml);
 
         email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);
