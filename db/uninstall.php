@@ -29,7 +29,7 @@
  */
 
 function xmldb_remarmoodle_uninstall() {
-	$serverurl = 'http://remar.dc.ufscar.br:8080/moodle/remove';
+	/*$serverurl = 'http://remar.dc.ufscar.br:8080/moodle/remove';
 		
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $serverurl);
@@ -38,7 +38,7 @@ function xmldb_remarmoodle_uninstall() {
 
 	$resp = curl_exec($ch);
 
-	curl_close($ch);
+	curl_close($ch);*/
 
     return true;
 }

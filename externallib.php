@@ -102,8 +102,8 @@ class mod_remarmoodle_external extends external_api {
                 $userIdField = new xmldb_field("user_id");
                 $userIdField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
-		$remarResourceId = new xmldb_field("remar_resource_id");
-		$remarResourceId->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+                $remarResourceId = new xmldb_field("remar_resource_id");
+                $remarResourceId->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
 
                 $key1 = new xmldb_key('primary');
                 $key1->set_attributes(XMLDB_KEY_PRIMARY, array('id'), null, null);
@@ -136,7 +136,7 @@ class mod_remarmoodle_external extends external_api {
                                         $length = $raw_field->length;
                                     } else {
                                         $ret = getError(2, $raw_field->name);
-                                        return $ret;
+                                        return array('json' => json_encode($ret));
                                     }
                                 }
                                 if (!is_null($raw_field->notnull) && !empty($raw_field->notnull) && is_bool($raw_field->notnull)) {
@@ -147,7 +147,7 @@ class mod_remarmoodle_external extends external_api {
                                         $default = $raw_field->default;
                                     } else {
                                         $ret = getError(4, $raw_field->type);
-                                        return $ret;
+                                        return array('json' => json_encode($ret));
                                     }
                                 }
                                 break;
@@ -158,7 +158,7 @@ class mod_remarmoodle_external extends external_api {
                                     $length = $raw_field->length;
                                 } else {
                                     $ret = getError(3, $raw_field->name);
-                                    return $ret;
+                                    return array('json' => json_encode($ret));
                                 }
                                 if (!is_null($raw_field->notnull) && !empty($raw_field->notnull) && is_bool($raw_field->notnull)) {
                                     $notnull = $raw_field->notnull;
@@ -168,7 +168,7 @@ class mod_remarmoodle_external extends external_api {
                                         $default = $raw_field->default;
                                     } else {
                                         $ret = getError(4, $raw_field->type);
-                                        return $ret;
+                                        return array('json' => json_encode($ret));
                                     }
                                 }
                                 break;
@@ -182,7 +182,7 @@ class mod_remarmoodle_external extends external_api {
                                     $length = $raw_field->length;
                                 } else {
                                     $ret = getError(3, $raw_field->name);
-                                    return $ret;
+                                    return array('json' => json_encode($ret));
                                 }
                                 if (!is_null($raw_field->notnull) && !empty($raw_field->notnull) && is_bool($raw_field->notnull)) {
                                     $notnull = $raw_field->notnull;
@@ -195,7 +195,7 @@ class mod_remarmoodle_external extends external_api {
                                         $default = $raw_field->default;
                                     } else {
                                         $ret = getError(4, $raw_field->type);
-                                        return $ret;
+                                        return array('json' => json_encode($ret));
                                     }
                                 }
                                 break;
@@ -209,7 +209,7 @@ class mod_remarmoodle_external extends external_api {
                                     $length = $raw_field->length;
                                 } else {
                                     $ret = getError(3, $raw_field->name);
-                                    return $ret;
+                                    return array('json' => json_encode($ret));
                                 }
                                 if (!is_null($raw_field->notnull) && !empty($raw_field->notnull) && is_bool($raw_field->notnull)) {
                                     $notnull = $raw_field->notnull;
@@ -222,7 +222,7 @@ class mod_remarmoodle_external extends external_api {
                                         $default = $raw_field->default;
                                     } else {
                                         $ret = getError(4, $raw_field->type);
-                                        return $ret;
+                                        return array('json' => json_encode($ret));
                                     }
                                 }
                                 break;
@@ -237,7 +237,7 @@ class mod_remarmoodle_external extends external_api {
                                         $length = $raw_field->length;
                                     } else {
                                         $ret = getError(2, $raw_field->name);
-                                        return $ret;
+                                        return array('json' => json_encode($ret));
                                     }
                                 }
                                 if (!is_null($raw_field->notnull) && !empty($raw_field->notnull) && is_bool($raw_field->notnull)) {
@@ -248,14 +248,14 @@ class mod_remarmoodle_external extends external_api {
                                         $default = $raw_field->default;
                                     } else {
                                         $ret = getError(4, $raw_field->type);
-                                        return $ret;
+                                        return array('json' => json_encode($ret));
                                     }
                                 }
                                 break;
 
                             default:
                                 $ret = getError(1, $raw_field->type);
-                                return $ret;
+                                return array('json' => json_encode($ret));
                                 break;
                         }
 
@@ -272,7 +272,7 @@ class mod_remarmoodle_external extends external_api {
                     'description' => '-SUCCESS!!-'
                 );
                 
-                return $ret;    
+                return array('json' => json_encode($ret));
             }
             else {
                 $ret = array (
