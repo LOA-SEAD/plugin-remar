@@ -39,7 +39,7 @@ class mod_remarmoodle_external extends external_api {
             'description' => 'ID do último item inserido no banco'
         );
         
-        return $ret;
+        return array('json' => json_encode($ret));
     }
  
     /**
@@ -47,22 +47,9 @@ class mod_remarmoodle_external extends external_api {
      * @return external_description
      */
     public static function insert_record_returns() {
-        /*return new external_single_structure (
-            array(
-                'userid' => new external_value(PARAM_INT, 'ID do usuário'),
-                'cm' => new external_value(PARAM_INT, 'ID do módulo do curso (course module - cm)'),
-                'instance_id' => new external_value(PARAM_INT, 'ID da instância do game'),
-                'dica' => new external_value(PARAM_TEXT, 'Dica para acertar a palavra'),
-                'palavra' => new external_value(PARAM_TEXT, 'Palavra que é a resposta'),
-                'contribuicao' => new external_value(PARAM_TEXT, 'Pessoa que contribuiu para a criação desta palavra'),
-                'letra_escolhida' => new external_value(PARAM_TEXT, 'Armazena a letra escolhida (jogada)'),
-                'timestamp' => new external_value(PARAM_ALPHANUMEXT, 'Timestamp de quando foi feita a jogada')
-            )
-        );*/
         return new external_single_structure(
             array (
-                'code' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
-                'description' => new external_value(PARAM_TEXT, 'Descrição')
+                'json' => new external_value(PARAM_INT, 'Json de retorno.'),
             )
         );
     }
@@ -293,7 +280,7 @@ class mod_remarmoodle_external extends external_api {
                     'description' => "There is a table called \'".$table_name."\' already."
                 );
 
-                return $ret;
+                return array('json' => json_encode($ret));
             }
         }
         catch(Exception $e) {
@@ -302,7 +289,7 @@ class mod_remarmoodle_external extends external_api {
                 'description' => $e->getMessage()
             );
             
-            return $ret;
+            return array('json' => json_encode($ret));
         }
     }
  
@@ -313,8 +300,7 @@ class mod_remarmoodle_external extends external_api {
     public static function create_table_returns() {
         return new external_single_structure(
             array (
-                'message' => new external_value(PARAM_TEXT, 'Message'),
-                'description' => new external_value(PARAM_TEXT, 'Description')
+                'json' => new external_value(PARAM_TEXT, 'Json de retonro')
             )
         );
     }
@@ -391,7 +377,7 @@ class mod_remarmoodle_external extends external_api {
             'description' => 'Sucesso! Este é o ID do último item inserido no banco. Email enviado.'
         );
 
-        return $ret;
+        return array('json' => json_encode($ret));
     }
 
     /**
@@ -401,8 +387,7 @@ class mod_remarmoodle_external extends external_api {
     public static function link_remar_user_returns() {
         return new external_single_structure(
             array (
-                'lastinsert_id' => new external_value(PARAM_INT, 'Código do último item inserido no banco ou do erro causado.'),
-                'description' => new external_value(PARAM_TEXT, 'Descrição')
+                'json' => new external_value(PARAM_INT, 'Json de retorno.')
             )
         );
     }
@@ -438,7 +423,7 @@ class mod_remarmoodle_external extends external_api {
             'description' => 'Moodle username'
         );
 
-        return $ret;
+        return array('json' => json_encode($ret));
     }
 
     /**
@@ -448,8 +433,7 @@ class mod_remarmoodle_external extends external_api {
     public static function token_verifier_returns() {
         return new external_single_structure(
             array (
-                'username' => new external_value(PARAM_TEXT, 'User.'),
-                'description' => new external_value(PARAM_TEXT, 'Descrição')
+                'json' => new external_value(PARAM_TEXT, 'Json de retorno.')
             )
         );
     }
