@@ -71,20 +71,9 @@ $PAGE->set_heading(format_string($course->fullname));
 // Output starts here.
 echo $OUTPUT->header();
 
-$records = $DB->get_records('remarmoodle');
-$url = null;
-$width = null;
-$height = null;
+$record = $DB->get_record('remarmoodle', array('game_id' => $remarmoodle->game_id));
 
-foreach($records as $record) {
-    if($record->game_id == $remarmoodle->game_id) {
-        $url = $record->url;
-        $width = $record->width;
-        $height = $record->height;
-    }
-}
-
-echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: '.$height.'px;width: '.$width.'px;', 'src' => $url));
+echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: '.$record->height.'px;width: '.$record->width.'px;', 'src' => $record->url));
 echo html_writer::end_tag('iframe');
 
 echo $OUTPUT->footer();

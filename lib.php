@@ -78,52 +78,19 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     global $DB;
 
     $remarmoodle->timecreated = time();
-    // You may have to add extra stuff in here.
-    
-    //remarmoodle's structure:
-    /*
-     *  [name] => QuiForca
-        [game] => 3
-        [grade] => 100
-        [gradecat] => 1
-        [visible] => 1
-        [cmidnumber] => 
-        [groupmode] => 0
-        [course] => 2
-        [coursemodule] => 30
-        [section] => 3
-        [module] => 35
-        [modulename] => remarmoodle
-        [instance] => 
-        [add] => remarmoodle
-        [update] => 0
-        [return] => 0
-        [sr] => 0
-        [submitbutton2] => Salvar e voltar ao curso
-        [groupingid] => 0
-        [completion] => 0
-        [completionview] => 0
-        [completionexpected] => 0
-        [completiongradeitemnumber] => 
-        [conditiongradegroup] => Array()
-        [conditionfieldgroup] => Array()
-        [intro] => 
-        [introformat] => 1
-        [timecreated] => 1433785685
-     */
     
     $remarmoodle->game_id = $remarmoodle->game;
     
     /* To save the URL of the game */
     $curl = new curl();
         //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
-    $json = $curl->post('myapp.dev:9090/moodle/moodleGameList', array('domain' => $_SERVER['HTTP_HOST']));
+    $json = $curl->post('http://remar.dc.ufscar.br/moodle/resources_list', array('domain' => $_SERVER['HTTP_HOST']));
 
     $obj = json_decode($json);
     
-    foreach($obj->games as $game) {
-        if(property_exists($game, "moodleUrl") && $game->id == $remarmoodle->game_id) {
-            $remarmoodle->url = $game->moodleUrl;
+    foreach($obj->resources as $resource) {
+        if(property_exists($resource, "moodleUrl") && $resource->id == $remarmoodle->game_id) {
+            $remarmoodle->url = $resource->moodleUrl;
         }
     }
     

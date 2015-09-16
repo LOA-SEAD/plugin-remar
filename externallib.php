@@ -49,7 +49,7 @@ class mod_remarmoodle_external extends external_api {
     public static function insert_record_returns() {
         return new external_single_structure(
             array (
-                'json' => new external_value(PARAM_INT, 'Json de retorno.'),
+                'json' => new external_value(PARAM_TEXT, 'Json de retorno.'),
             )
         );
     }
@@ -387,7 +387,7 @@ class mod_remarmoodle_external extends external_api {
     public static function link_remar_user_returns() {
         return new external_single_structure(
             array (
-                'json' => new external_value(PARAM_INT, 'Json de retorno.')
+                'json' => new external_value(PARAM_TEXT, 'Json de retorno.')
             )
         );
     }
