@@ -84,7 +84,7 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     /* To save the URL of the game */
     $curl = new curl();
         //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
-    $json = $curl->post('http://remar.dc.ufscar.br/moodle/resources_list', array('domain' => $_SERVER['HTTP_HOST']));
+    $json = $curl->post('http://localhost:9090/moodle/resources_list', array('domain' => $_SERVER['HTTP_HOST']));
 
     $obj = json_decode($json);
     

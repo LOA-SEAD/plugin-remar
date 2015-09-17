@@ -26,17 +26,33 @@ class mod_remarmoodle_external extends external_api {
      * The function itself
      * @return string welcome message
      */
-    public static function insert_record($params) {
+    public static function insert_record($table_name, $json) {
         global $DB;
         
         //Parameters validation
-        $validated_params = self::validate_parameters(self::insert_record_parameters(), array('params' => $params));
+        $validated_params = self::validate_parameters(self::insert_record_parameters(), array('table_name' => $table_name, 'json' => $json));
+        
+        $remar = json_decode($validated_params['json']);
+        
+        /*die ($validated_params);
+        
+        $ret = array (
+            'code' => "dsadsdsasad",
+            'description' => ' OK!'
+        );
+        
+        return array('json' => json_encode($ret));*/
  
-        $lastinsertid = $DB->insert_record('remarmoodle_'.$validated_params['table_name'], $params);
+        $currUser = $DB->get_record('remarmoodle_user', array('moodle_username' => $remar->user_id));
+        if ($currUser != null) {
+            $remar->user_id = $currUser->moodle_username;
+        }
+        
+        $lastinsertid = $DB->insert_record('remarmoodle_'.$validated_params['table_name'], $remar);
  
         $ret = array (
             'code' => $lastinsertid,
-            'description' => 'ID do último item inserido no banco'
+            'description' => ' OK!'
         );
         
         return array('json' => json_encode($ret));

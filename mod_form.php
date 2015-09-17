@@ -83,7 +83,7 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         else {
             $remar_user_id = "nada";
         }
-        
+        var_dump($obj);
         foreach($obj->resources as $resource) {
             if($resource->remar_user_id == $remar_user_id) {
                 $mform->addElement('html', '<tr>');

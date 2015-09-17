@@ -94,29 +94,45 @@ echo $remarmoodle_content;*/
 var_dump($_SESSION);
 echo '</pre>';*/
 
-$records = $DB->get_records('remarmoodle_quiforca');
-$table = new html_table();
-$table->head = array('ID', 'ID do Usuário', 'Módulo do Curso', 'Instance_id', 'Dica', 'Palavra', 'Contribuição', 'Letra Escolhida', 'Data');
+$records = $DB->get_records('remarmoodle_escola_magica');
 
-$data = array();
+if ($records == null) {
+    echo html_writer::label("Ainda não há dados", null);
+}
+else {
+    $table = new html_table();
+    $table->head = array('Username do usuário', 'Módulo do Curso', 'ID do Recurso do REMAR', 'Enunciado', 'Alternativa A', 'Alternativa B',
+        'Alternativa C', 'Alternativa D', 'Resposta Certa', 'Resposta Escolhida', 'Hora');
 
-foreach($records as $record) {
-    $organized_array['id'] = $record->id;
-    $organized_array['userid'] = $record->userid;
-    $organized_array['cm'] = $record->cm;
-    $organized_array['instanece_id'] = $record->instance_id;
-    $organized_array['dica'] = $record->dica;
-    $organized_array['palavra'] = $record->palavra;
-    $organized_array['contribuicao'] = $record->contribuicao;
-    $organized_array['letra_escolhida'] = $record->letra_escolhida;
-    $organized_array['timestamp'] = date("d/m/Y h:m:s", $record->timestamp);
-    array_push($data, $organized_array);
+    $data = array();
+
+    global $USER;
+
+    foreach($records as $record) {
+        
+        $currUser = $DB->get_record('remarmoodle_user', array('remar_user_id' => $record->user_id));
+
+        $organized_array['user'] = $currUser->moodle_username;
+        $organized_array['cm'] = $record->cm;
+        $organized_array['remar_resource_id'] = $record->remar_resource_id;
+        $organized_array['enunciado'] = $record->enunciado;
+        $organized_array['alternativaa'] = $record->alternativaa;
+        $organized_array['alternativab'] = $record->alternativab;
+        $organized_array['alternativac'] = $record->alternativac;
+        $organized_array['alternativad'] = $record->alternativad;
+        $organized_array['respostacerta'] = $record->respostacerta;
+        $organized_array['resposta'] = $record->resposta;
+        $organized_array['timestamp'] = date("d/m/Y H:i:s", $record->timestamp);
+        array_push($data, $organized_array);
+    }
+    
+    $table->data = $data;
+
+    echo html_writer::table($table);
 }
 
 //print_r($data);
-$table->data = $data;
 
-echo html_writer::table($table);
 /*echo '<pre>';
 print_r($records);
 echo '</pre>';*/
