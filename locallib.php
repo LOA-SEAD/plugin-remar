@@ -40,9 +40,15 @@ if (!defined('MOODLE_INTERNAL')) {
  *}
  */
 
-function remarmoodle_quiforca_update($userid, $cm, $instanceid, $quiforca_data) {
-    echo '<pre>';
-    var_dump($quiforca_data);
-    echo '</pre>';
-    die();
+function link_remar_user_to_moodle($hash, $username) {
+    global $DB;
+    
+    $remarmoodle_user = new stdClass();
+    $remarmoodle_user->hash = $hash;
+    //$remarmoodle_user->remar_user_id = $validated_params["remar_user_id"];
+    $remarmoodle_user->moodle_username = $username;
+
+    $lastinsertid = $DB->insert_record('remarmoodle_user', $remarmoodle_user);
+
+    return $lastinsertid;
 }

@@ -15,11 +15,19 @@ $restformat = 'json';
 
 /// PARAMETERS
 
+require_once(dirname(__FILE__) . '/../../../config.php');
+require_once(dirname(dirname(dirname(__FILE__))).'/../config.php');
+require_once(dirname(__FILE__).'/../lib.php');
+echo "asdasdas";
+
+global $DB;
+var_dump($DB);
+
 /// REST CALL
-$serverurl = $domainname . '/webservice/rest/server.php'. '?wstoken=' . $token . '&wsfunction='.$functionname;
+/*$serverurl = $domainname . '/webservice/rest/server.php'. '?wstoken=' . $token . '&wsfunction='.$functionname;
 require_once('../curl.php');
 $curl = new curl;
 //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
 $restformat = ($restformat == 'json')?'&moodlewsrestformat=' . $restformat:'';
 $resp = $curl->post($serverurl . $restformat, array('hash' => '7d4ed1068726d91f7f66c3db7d2f9a27f8a0ca5bf35df32913b48fb8dc5929fb'));
-print_r($resp);
+print_r($resp);*/

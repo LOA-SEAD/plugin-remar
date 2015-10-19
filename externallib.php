@@ -389,8 +389,8 @@ class mod_remarmoodle_external extends external_api {
         );*/
 
         $ret = array (
-            'lastinsert_id' => $lastinsertid,
-            'description' => 'Sucesso! Este é o ID do último item inserido no banco. Email enviado.'
+            'message' => "success",
+            'description' => 'Sucesso! Este é o ID do último item inserido no banco: '.$lastinsertidt.'. Email enviado.'
         );
 
         return array('json' => json_encode($ret));
