@@ -91,7 +91,6 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     $obj = json_decode($json);
     
     foreach($obj->resources as $resource) {
-        var_dump($resource);
         if(property_exists($resource, "moodleUrl") && $resource->id == $remarmoodle->game_id) {
             $remarmoodle->url = $resource->moodleUrl;
         }

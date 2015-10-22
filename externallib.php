@@ -16,8 +16,17 @@ class mod_remarmoodle_external extends external_api {
     public static function insert_record_parameters() {
         return new external_function_parameters (
             array (
-                'table_name' => new external_value(PARAM_TEXT, 'Table name where the data is going to be saved.'),
-                'json' => new external_value(PARAM_TEXT, 'Json with the content.')
+                'table_name' => new external_value(PARAM_TEXT, 'Nome da tabela a serem inserido os dados.'),
+                'enunciado' => new external_value(PARAM_TEXT, 'Enunciado da pergunta.'),            
+                'alternativaa' => new external_value(PARAM_TEXT, 'Alternativa A.'),
+                'alternativab' => new external_value(PARAM_TEXT, 'Alternativa B.'),
+                'alternativac' => new external_value(PARAM_TEXT, 'Alternativa C.'),
+                'alternativad' => new external_value(PARAM_TEXT, 'Alternativa D.'),
+                'respostacerta' => new external_value(PARAM_TEXT, 'Resposta correta.'),
+                'resposta' => new external_value(PARAM_TEXT, 'Resposta escolhida pelo usuário.'),
+                'timestamp' => new external_value(PARAM_INT, 'Data e hora de quando foi a tentativa.'),
+                'hash' => new external_value(PARAM_TEXT, 'Hash do usuário para o Moodle.'),
+                'remar_resource_id' => new external_value(PARAM_INT, 'Json with the content.')
             )
         );
     }
@@ -26,29 +35,51 @@ class mod_remarmoodle_external extends external_api {
      * The function itself
      * @return string welcome message
      */
-    public static function insert_record($table_name, $json) {
+    public static function insert_record($table_name, $enunciado, $alternativaa, $alternativab,
+                                        $alternativac, $alternativad, $respostacerta, $resposta,
+                                        $timestamp, $hash, $remar_resource_id) {
         global $DB;
         
         //Parameters validation
-        $validated_params = self::validate_parameters(self::insert_record_parameters(), array('table_name' => $table_name, 'json' => $json));
-        
-        $remar = json_decode($validated_params['json']);
-        
-        /*die ($validated_params);
-        
-        $ret = array (
-            'code' => "dsadsdsasad",
-            'description' => ' OK!'
+        $validated_params = self::validate_parameters(self::insert_record_parameters(),
+            array(
+                'table_name' => $table_name,
+                'enunciado' => $enunciado,
+                'alternativaa' => $alternativaa,
+                'alternativab' => $alternativab,
+                'alternativac' => $alternativac,
+                'alternativad' => $alternativad,
+                'respostacerta' => $respostacerta,
+                'resposta' => $resposta,
+                'timestamp' => $timestamp,
+                'hash' => $hash,
+                'remar_resource_id' => $remar_resource_id
+            )
         );
         
-        return array('json' => json_encode($ret));*/
- 
-        $currUser = $DB->get_record('remarmoodle_user', array('moodle_username' => $remar->user_id));
-        if ($currUser != null) {
-            $remar->user_id = $currUser->moodle_username;
+        $data = new stdClass();
+        $data->user_id = "";
+        
+        $user = $DB->get_record('remarmoodle_user', array('hash' => $validated_params['hash']));
+        if ($user != null) {
+            $user = $DB->get_record('user', array('username' => $user->moodle_username));
+            if ($user != null) {
+                $data->user_id = $user->id;
+            }
         }
         
-        $lastinsertid = $DB->insert_record('remarmoodle_'.$validated_params['table_name'], $remar);
+        $data->enunciado = $enunciado;
+        $data->alternativaa = $alternativaa;
+        $data->alternativaa = $alternativaa;
+        $data->alternativab = $alternativab;
+        $data->alternativac = $alternativac;
+        $data->alternativad = $alternativad;
+        $data->respostacerta = $respostacerta;
+        $data->resposta = $resposta;
+        $data->timestamp = $timestamp;
+        $data->remar_resource_id = $remar_resource_id;
+        
+        $lastinsertid = $DB->insert_record('remarmoodle_'.$validated_params['table_name'], $data);
  
         $ret = array (
             'code' => $lastinsertid,
@@ -111,9 +142,6 @@ class mod_remarmoodle_external extends external_api {
                 
                 $idField = new xmldb_field("id");
                 $idField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-                
-                $cmField = new xmldb_field("cm");
-                $cmField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
                 
                 $userIdField = new xmldb_field("user_id");
                 $userIdField->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
