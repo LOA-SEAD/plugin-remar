@@ -67,7 +67,9 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         
         $curl = new curl();
         //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
-        $json = $curl->post('localhost:9090/moodle/resources_list', array('domain' => $_SERVER['HTTP_HOST']));
+        $path = 'http://localhost:9090/moodle/resources_list';
+        $domain = 'http://'.$_SERVER['HTTP_HOST'];
+        $json = $curl->post($path, array('domain' => $domain));
         
         $obj = json_decode($json);
         
@@ -75,17 +77,17 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         $mform->addElement('html', '<table>');
         
         $currUser = $DB->get_record('remarmoodle_user', array('moodle_username' => $USER->username));
-        $remar_user_id;
+        $hash;
         
         if ($currUser != null) {
-            $remar_user_id = $currUser->remar_user_id;
+            $hash = $currUser->hash;
         }
         else {
-            $remar_user_id = "nada";
+            $hash = "nada";
         }
-        var_dump($obj);
+        
         foreach($obj->resources as $resource) {
-            if($resource->remar_user_id == $remar_user_id) {
+            if($resource->moodleHash == $hash) {
                 $mform->addElement('html', '<tr>');
                 $mform->addElement('html', '<td>');
                 $radio =& $mform->createElement('radio', 'game', '', $resource->name, $resource->id, null);
