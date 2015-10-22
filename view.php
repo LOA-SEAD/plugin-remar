@@ -75,7 +75,7 @@ echo $OUTPUT->header();
 
 $record = $DB->get_record('remarmoodle', array('game_id' => $remarmoodle->game_id));
 
-echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: '.$record->height.'px;width: '.$record->width.'px;', 'src' => $remarPath.$record->url));
+echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: '.($record->height+30).'px;width: '.($record->width+30).'px;', 'src' => $remarPath.$record->url));
 echo html_writer::end_tag('iframe');
 
 echo $OUTPUT->footer();
