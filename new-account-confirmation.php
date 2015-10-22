@@ -18,6 +18,7 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url('/mod/remarmoodle/new-account-confirmation.php', array("hash" => "hash"));
 $PAGE->set_title("Confimação de vinculação e conta do Moodle com o REMAR");
 $PAGE->set_pagelayout('base');
+$remarPath = 'http://localhost:9090';
 //$PAGE->set_heading(format_string($course->fullname));
 
 global $USER, $DB;
@@ -53,13 +54,13 @@ if ($confirmed == true) {
 
     email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);
     
-    echo '<script type="text/javascript">location.href = "http://localhost:9090/moodle/confirm/'.$hash.'?username='.$USER->username.'";</script>';
+    echo '<script type="text/javascript">location.href = "'.$remarPath.'/moodle/confirm/'.$hash.'?username='.$USER->username.'";</script>';
 }
 else {
     if ($not_used != false) {
         $message = "O usuário '".$USER->username."' já tem uma conta vinculada com o REMAR.";
-        $yes_url = new moodle_url('http://localhost:9090/dashboard');
-        $no_url = new moodle_url('http://localhost:9090/dashboard');
+        $yes_url = new moodle_url($remarPath.'/dashboard');
+        $no_url = new moodle_url($remarPath.'/dashboard');
         echo $OUTPUT->confirm($message, $yes_url, $no_url);
     }
     else {        
@@ -67,7 +68,7 @@ else {
 
         $message = "Tem certeza que deseja vincular sua conta no REMAR com sua conta '".$USER->username."' neste moodle?";
         $yes_url = new moodle_url($PAGE->url, $params);
-        $no_url = new moodle_url('http://localhost:9090/dashboard');
+        $no_url = new moodle_url($remarPath.'/dashboard');
         echo $OUTPUT->confirm($message, $yes_url, $no_url);
     }
 }
