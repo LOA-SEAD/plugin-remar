@@ -57,7 +57,7 @@ $event->trigger();
 
 // Print the page header.
 
-$PAGE->set_url('/mod/remarmoodle/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/remarmoodle/report.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($remarmoodle->name));
 $PAGE->set_heading(format_string($course->fullname));
 
@@ -101,7 +101,7 @@ if ($records == null) {
 }
 else {
     $table = new html_table();
-    $table->head = array('Username do usuário', 'Módulo do Curso', 'ID do Recurso do REMAR', 'Enunciado', 'Alternativa A', 'Alternativa B',
+    $table->head = array('Username do usuário', /*'Módulo do Curso',*/ 'ID do Recurso do REMAR', 'Enunciado', 'Alternativa A', 'Alternativa B',
         'Alternativa C', 'Alternativa D', 'Resposta Certa', 'Resposta Escolhida', 'Hora');
 
     $data = array();
@@ -109,21 +109,22 @@ else {
     global $USER;
 
     foreach($records as $record) {
-        
-        $currUser = $DB->get_record('remarmoodle_user', array('remar_user_id' => $record->user_id));
+        if ($record->user_id != 0) {
+            $currUser = $DB->get_record('user', array('id' => $record->user_id));
 
-        $organized_array['user'] = $currUser->moodle_username;
-        $organized_array['cm'] = $record->cm;
-        $organized_array['remar_resource_id'] = $record->remar_resource_id;
-        $organized_array['enunciado'] = $record->enunciado;
-        $organized_array['alternativaa'] = $record->alternativaa;
-        $organized_array['alternativab'] = $record->alternativab;
-        $organized_array['alternativac'] = $record->alternativac;
-        $organized_array['alternativad'] = $record->alternativad;
-        $organized_array['respostacerta'] = $record->respostacerta;
-        $organized_array['resposta'] = $record->resposta;
-        $organized_array['timestamp'] = date("d/m/Y H:i:s", $record->timestamp);
-        array_push($data, $organized_array);
+            $organized_array['user'] = $currUser->firstname." ".$currUser->lastname;
+            //$organized_array['cm'] = $record->cm;
+            $organized_array['remar_resource_id'] = $record->remar_resource_id;
+            $organized_array['enunciado'] = $record->enunciado;
+            $organized_array['alternativaa'] = $record->alternativaa;
+            $organized_array['alternativab'] = $record->alternativab;
+            $organized_array['alternativac'] = $record->alternativac;
+            $organized_array['alternativad'] = $record->alternativad;
+            $organized_array['respostacerta'] = $record->respostacerta;
+            $organized_array['resposta'] = $record->resposta;
+            $organized_array['timestamp'] = date("d/m/Y H:i:s", $record->timestamp);
+            array_push($data, $organized_array);
+        }
     }
     
     $table->data = $data;
