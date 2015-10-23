@@ -31,35 +31,20 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
-$n  = optional_param('n', 0, PARAM_INT);  // ... remarmoodle instance ID - it should be named as the first character of the module.
 
 if ($id) {
-    $cm         = get_coursemodule_from_id('remarmoodle', $id, 0, false, MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $remarmoodle  = $DB->get_record('remarmoodle', array('id' => $cm->instance), '*', MUST_EXIST);
-} else if ($n) {
-    $remarmoodle  = $DB->get_record('remarmoodle', array('id' => $n), '*', MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $remarmoodle->course), '*', MUST_EXIST);
-    $cm         = get_coursemodule_from_instance('remarmoodle', $remarmoodle->id, $course->id, false, MUST_EXIST);
+    $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 } else {
-    error('You must specify a course_module ID or an instance ID');
+    error('You must specify a course ID - Você deve especificar o ID do curso');
 }
 
-require_login($course, true, $cm);
+require_login($course, true);
 
-$event = \mod_remarmoodle\event\course_module_viewed::create(array(
-    'objectid' => $PAGE->cm->instance,
-    'context' => $PAGE->context,
-));
-$event->add_record_snapshot('course', $PAGE->course);
-$event->add_record_snapshot($PAGE->cm->modname, $remarmoodle);
-$event->trigger();
-
-// Print the page header.
-
-$PAGE->set_url('/mod/remarmoodle/report.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($remarmoodle->name));
-$PAGE->set_heading(format_string($course->fullname));
+$PAGE->set_course($course);
+$PAGE->set_url('/mod/remarmoodle/report.php', array('id' => $id));
+$PAGE->set_title("Relatório de uso");
+$PAGE->set_heading("Relatório de uso");
+$PAGE->set_pagelayout('standard');
 
 /*
  * Other things you may want to set - remove if not needed.
@@ -71,37 +56,41 @@ $PAGE->set_heading(format_string($course->fullname));
 // Output starts here.
 echo $OUTPUT->header();
 
-// Conditions to show the intro can change to look for own settings or whatever.
-//$bla = $DB->get_records('remarmoodle');
-//echo '<p>'.var_dump($bla).'</p>';
+$table_name = "remarmoodle"."_escola_magica";
 
-/*if ($remarmoodle->intro) {
-    echo $OUTPUT->box(format_module_intro('remarmoodle', $remarmoodle, $cm->id), 'generalbox mod_introbox', 'remarmoodleintro');
-}*/
+$resources = $DB->get_records("remarmoodle", array('course' => $course->id));
 
-/*$remarmoodle_content = '<p>'.get_string('test_activity_description', 'remarmoodle').'</p>';
-$remarmoodle_content .= '<form method="get" action="grade.php">';
-$remarmoodle_content .= '<input type="hidden" name="id" value="'.$cm->id.'" />';
-$remarmoodle_content .= '<input type="hidden" name="userid" value="'.$USER->id.'" />';
-$remarmoodle_content .= '<input type="number" name="questions" min="0" max="10" /><br />';
-$remarmoodle_content .= '<input type="submit" />';
-$remarmoodle_content .= '</form>';*/
-/*$remarmoodle_content = '<div><iframe src="http://sistemas2.sead.ufscar.br/loa/QuiForca/" height="600" width="900" scrolling=no frameborder="0" /></div>';
 
-echo $remarmoodle_content;*/
+echo "<center>";
+echo "<div>";
+echo "<select>";
+foreach($resources as $resource) {
+    echo '<option value="'.$resource->id.'">'.$resource->name.'</option>';
+}
+echo "</select>";
+echo "</div>";
+echo "<center>";
 
-/*echo '<pre>';
-var_dump($_SESSION);
-echo '</pre>';*/
+/*
+$records = $DB->get_records_sql($table_name, array("course" => $course->id));
 
-$records = $DB->get_records('remarmoodle_escola_magica');
+var_dump($records);
+echo "<br />";
+echo "<br />";
+echo "<br />";
+echo "<br />";
+echo "<br />";
+echo "<br />";
 
 if ($records == null) {
     echo html_writer::label("Ainda não há dados", null);
 }
 else {
     $table = new html_table();
-    $table->head = array('Username do usuário', /*'Módulo do Curso',*/ 'ID do Recurso do REMAR', 'Enunciado', 'Alternativa A', 'Alternativa B',
+    $table->head = array(
+        'Username do usuário',
+        //'Módulo do Curso',
+        'ID do Recurso do REMAR', 'Enunciado', 'Alternativa A', 'Alternativa B',
         'Alternativa C', 'Alternativa D', 'Resposta Certa', 'Resposta Escolhida', 'Hora');
 
     $data = array();
@@ -130,13 +119,7 @@ else {
     $table->data = $data;
 
     echo html_writer::table($table);
-}
-
-//print_r($data);
-
-/*echo '<pre>';
-print_r($records);
-echo '</pre>';*/
+}*/
 
 
 // Finish the page.
