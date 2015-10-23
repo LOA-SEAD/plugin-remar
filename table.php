@@ -21,7 +21,7 @@ else {
     $table = new html_table();
     
     $table->head = array(
-        'Usuário', /*'Módulo do curso',*/ 'Atividade REMAR', 'Enunciado',
+        'Usuário', /*'Módulo do curso', 'Atividade REMAR',*/ 'Enunciado',
         'Alternativa A', 'Alternativa B', 'Alternativa C', 'Alternativa D',
         'Resposta Correta', 'Resposta Escolhida', 'Data'
     );
@@ -34,7 +34,7 @@ else {
             
             $organized_array['user'] = $currentUser->firstname." ".$currentUser->lastname;
             //$organized_array['cm'] = $record->cm;
-            $organized_array['remar_resource_id'] = $record->remar_resource_id;
+            //$organized_array['remar_resource_id'] = $record->remar_resource_id;
             $organized_array['enunciado'] = $record->enunciado;
             $organized_array['alternativaa'] = $record->alternativaa;
             $organized_array['alternativab'] = $record->alternativab;
