@@ -60,69 +60,25 @@ $table_name = "remarmoodle"."_escola_magica";
 
 $resources = $DB->get_records("remarmoodle", array('course' => $course->id));
 
+?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="functions.js"></script>
+<?php
+
 if ($resources == null) {
     echo "<h3>Ainda não há jogos neste curso.</h3>";
 }
 else {
     echo "<center>";
     echo "<div>";
-    echo "<select>";
+    echo '<select id="resource">';
     foreach($resources as $resource) {
-        echo '<option value="'.$resource->id.'">'.$resource->name.'</option>';
+        echo '<option value="'.$resource->game_id.'">'.$resource->name.'</option>';
     }
     echo "</select>";
     echo "</div>";
+    echo '<div id="table_content"></div>';
     echo "<center>";
-
-    /*
-    $records = $DB->get_records_sql($table_name, array("course" => $course->id));
-
-    var_dump($records);
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-    echo "<br />";
-
-    if ($records == null) {
-        echo html_writer::label("Ainda não há dados", null);
-    }
-    else {
-        $table = new html_table();
-        $table->head = array(
-            'Username do usuário',
-            //'Módulo do Curso',
-            'ID do Recurso do REMAR', 'Enunciado', 'Alternativa A', 'Alternativa B',
-            'Alternativa C', 'Alternativa D', 'Resposta Certa', 'Resposta Escolhida', 'Hora');
-
-        $data = array();
-
-        global $USER;
-
-        foreach($records as $record) {
-            if ($record->user_id != 0) {
-                $currUser = $DB->get_record('user', array('id' => $record->user_id));
-
-                $organized_array['user'] = $currUser->firstname." ".$currUser->lastname;
-                //$organized_array['cm'] = $record->cm;
-                $organized_array['remar_resource_id'] = $record->remar_resource_id;
-                $organized_array['enunciado'] = $record->enunciado;
-                $organized_array['alternativaa'] = $record->alternativaa;
-                $organized_array['alternativab'] = $record->alternativab;
-                $organized_array['alternativac'] = $record->alternativac;
-                $organized_array['alternativad'] = $record->alternativad;
-                $organized_array['respostacerta'] = $record->respostacerta;
-                $organized_array['resposta'] = $record->resposta;
-                $organized_array['timestamp'] = date("d/m/Y H:i:s", $record->timestamp);
-                array_push($data, $organized_array);
-            }
-        }
-
-        $table->data = $data;
-
-        echo html_writer::table($table);
-    }*/
 }
 
 // Finish the page.
