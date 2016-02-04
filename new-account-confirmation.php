@@ -10,7 +10,9 @@ require_once(dirname(__FILE__).'/locallib.php');
 require_login();
 
 required_param("hash", PARAM_STRINGID);
+required_param("moodleId", PARAM_STRINGID);
 $hash = optional_param('hash', 0, PARAM_RAW);
+$moodleId = optional_param('moodleId', 0, PARAM_RAW);
 
 $confirmed = optional_param('confirmed', 0, PARAM_RAW);
 
@@ -54,21 +56,21 @@ if ($confirmed == true) {
 
     email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);
     
-    echo '<script type="text/javascript">location.href = "'.$remarPath.'/moodle/confirm/'.$hash.'?username='.$USER->username.'";</script>';
+    echo '<script type="text/javascript">location.href = "'.$remarPath.'/moodle/confirm/'.$hash.'?moodleId='.$moodleId.'&username='.$USER->username.'";</script>';
 }
 else {
     if ($not_used != false) {
         $message = "O usuário '".$USER->username."' já tem uma conta vinculada com o REMAR.";
-        $yes_url = new moodle_url($remarPath.'/dashboard');
-        $no_url = new moodle_url($remarPath.'/dashboard');
+        $yes_url = new moodle_url($remarPath.'/my-profile');
+        $no_url = new moodle_url($remarPath.'/my-profile');
         echo $OUTPUT->confirm($message, $yes_url, $no_url);
     }
     else {        
-        $params = array('hash' => $hash, 'confirmed' => 'true');
+        $params = array('hash' => $hash, 'confirmed' => 'true', 'moodleId' => $moodleId);
 
         $message = "Tem certeza que deseja vincular sua conta no REMAR com sua conta '".$USER->username."' neste moodle?";
         $yes_url = new moodle_url($PAGE->url, $params);
-        $no_url = new moodle_url($remarPath.'/dashboard');
+        $no_url = new moodle_url($remarPath.'/my-profile');
         echo $OUTPUT->confirm($message, $yes_url, $no_url);
     }
 }
