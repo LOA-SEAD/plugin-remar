@@ -75,18 +75,18 @@ function remarmoodle_supports($feature) {
  * @return int The id of the newly inserted remarmoodle record
  */
 function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_form $mform = null) {
-    global $DB;
+    global $DB, $USER;
 
     $remarmoodle->timecreated = time();
     
     $remarmoodle->game_id = $remarmoodle->game;
     
-    /* To save the URL of the game */
+    //get the current user's hash
+    $user = $DB->get_record('remarmoodle_user', array('moodle_username' => $USER->username));
+
     $curl = new curl();
-    //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
     $path = 'http://localhost:9090/moodle/resources_list';
-    $domain = 'http://'.$_SERVER['HTTP_HOST'];
-    $json = $curl->post($path, array('domain' => $domain));
+    $json = $curl->post($path, array('hash' => $user->hash));
 
     $obj = json_decode($json);
     
@@ -95,11 +95,7 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
             $remarmoodle->url = $resource->moodleUrl;
         }
     }
-    
-    //echo "<br /><br />remarmoodle: ";
-    //var_dump($remarmoodle);
-    //die();
-    
+
     $remarmoodle->id = $DB->insert_record('remarmoodle', $remarmoodle);
 
     remarmoodle_grade_item_update($remarmoodle);

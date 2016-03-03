@@ -63,39 +63,26 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         // Adding the standard "intro" and "introformat" fields.
         $this->add_intro_editor();
 
-        //$json = file_get_contents('myapp.dev:9090/moodle/moodleGameList');
-        
+        //Get the user hash to send it to REMAR
+        $user = $DB->get_record('remarmoodle_user', array('moodle_username' => $USER->username));
         $curl = new curl();
-        //if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
         $path = 'http://localhost:9090/moodle/resources_list';
-        $domain = 'http://'.$_SERVER['HTTP_HOST'];
-        $json = $curl->post($path, array('domain' => $domain));
-        
+        $json = $curl->post($path, array('hash' => $user->hash));
+
+        //convert the response to json
         $obj = json_decode($json);
         
         $mform->addElement('html', '<div id="test">');
         $mform->addElement('html', '<table>');
         
-        $currUser = $DB->get_record('remarmoodle_user', array('moodle_username' => $USER->username));
-        $hash;
-        
-        if ($currUser != null) {
-            $hash = $currUser->hash;
-        }
-        else {
-            $hash = "nada";
-        }
-        
         foreach($obj->resources as $resource) {
-            if($resource->moodleHash == $hash) {
-                $mform->addElement('html', '<tr>');
-                $mform->addElement('html', '<td>');
-                $radio =& $mform->createElement('radio', 'game', '', $resource->name, $resource->id, null);
-                $mform->addElement($radio);
-                $mform->addElement('html', '</label>');
-                $mform->addElement('html', '</td>');
-                $mform->addElement('html', '</tr>');
-            }
+            $mform->addElement('html', '<tr>');
+            $mform->addElement('html', '<td>');
+            $radio =& $mform->createElement('radio', 'game', '', $resource->name, $resource->id, null);
+            $mform->addElement($radio);
+            $mform->addElement('html', '</label>');
+            $mform->addElement('html', '</td>');
+            $mform->addElement('html', '</tr>');
         }
         
         $mform->addElement('html', '</table>');

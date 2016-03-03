@@ -31,16 +31,16 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
-$n  = optional_param('n', 0, PARAM_INT);  // ... remarmoodle instance ID - it should be named as the first character of the module.
 
 if ($id) {
     $cm         = get_coursemodule_from_id('remarmoodle', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $remarmoodle  = $DB->get_record('remarmoodle', array('id' => $cm->instance), '*', MUST_EXIST);
-} else if ($n) {
-    $remarmoodle  = $DB->get_record('remarmoodle', array('id' => $n), '*', MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $remarmoodle->course), '*', MUST_EXIST);
-    $cm         = get_coursemodule_from_instance('remarmoodle', $remarmoodle->id, $course->id, false, MUST_EXIST);
+    /*var_dump($cm);
+    echo "<br /><br />";
+    var_dump($course);
+    echo "<br /><br />";
+    var_dump($remarmoodle);*/
 } else {
     error('You must specify a course_module ID or an instance ID');
 }
@@ -73,7 +73,7 @@ $remarPath = "http://localhost:9090";
 // Output starts here.
 echo $OUTPUT->header();
 
-$record = $DB->get_record('remarmoodle', array('game_id' => $remarmoodle->game_id));
+$record = $DB->get_record('remarmoodle', array('id' => $remarmoodle->id));
 
 echo html_writer::start_tag('iframe', array('frameBorder' => "0", 'scrolling' => 'no', 'style' => 'height: '.($record->height+30).'px;width: '.($record->width+30).'px;', 'src' => $remarPath.$record->url));
 echo html_writer::end_tag('iframe');
