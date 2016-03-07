@@ -15,7 +15,6 @@
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="100" SEQUENCE="false" COMMENT="The maximum grade. Can be negative to indicate the use of a scale."/>
         <FIELD NAME="url" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="URL where the game is available to play."/>
-        <FIELD NAME="table_name" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Name of the table created in the moodle by REMAR."/>
         <FIELD NAME="game_id" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Game ID."/>
         <FIELD NAME="width" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="800" SEQUENCE="false" COMMENT="Game width."/>
         <FIELD NAME="height" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="600" SEQUENCE="false" COMMENT="Game height."/>
