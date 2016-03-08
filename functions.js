@@ -14,7 +14,7 @@ $(document).ready(function() {
     function fillTable(resourceid) {
         $.ajax({
             url: 'table.php',
-            type: 'GET',
+            type: 'POST',
             data: { resourceid: resourceid },
             success: function(data, status) {
                 $("#table_content").html(data);
