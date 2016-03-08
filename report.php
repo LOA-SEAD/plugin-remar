@@ -56,8 +56,6 @@ $PAGE->set_pagelayout('standard');
 // Output starts here.
 echo $OUTPUT->header();
 
-$table_name = "remarmoodle"."_escola_magica";
-
 $resources = $DB->get_records("remarmoodle", array('course' => $course->id));
 
 ?>

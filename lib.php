@@ -80,7 +80,7 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     $remarmoodle->timecreated = time();
     
     $remarmoodle->game_id = $remarmoodle->game;
-    
+
     //get the current user's hash
     $user = $DB->get_record('remarmoodle_user', array('moodle_username' => $USER->username));
 
