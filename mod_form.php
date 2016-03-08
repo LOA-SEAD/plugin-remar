@@ -80,7 +80,6 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
             $mform->addElement('html', '<td>');
             $radio =& $mform->createElement('radio', 'game', '', $resource->name, $resource->id, null);
             $mform->addElement($radio);
-            $mform->addElement('html', '</label>');
             $mform->addElement('html', '</td>');
             $mform->addElement('html', '</tr>');
         }
