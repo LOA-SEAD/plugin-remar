@@ -68,7 +68,7 @@ $PAGE->set_heading(format_string($course->fullname));
  * $PAGE->add_body_class('remarmoodle-'.$somevar);
  */
 
-$remarPath = "http://localhost:9090";
+$remarPath = "http://localhost:8080";
 
 // Output starts here.
 echo $OUTPUT->header();

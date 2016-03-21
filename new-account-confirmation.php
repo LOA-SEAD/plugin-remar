@@ -20,7 +20,7 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url('/mod/remarmoodle/new-account-confirmation.php', array("hash" => "hash"));
 $PAGE->set_title("Confimação de vinculação e conta do Moodle com o REMAR");
 $PAGE->set_pagelayout('base');
-$remarPath = 'http://localhost:9090';
+$remarPath = 'http://localhost:8080';
 //$PAGE->set_heading(format_string($course->fullname));
 
 global $USER, $DB;

@@ -85,7 +85,7 @@ function remarmoodle_add_instance(stdClass $remarmoodle, mod_remarmoodle_mod_for
     $user = $DB->get_record('remarmoodle_user', array('moodle_username' => $USER->username));
 
     $curl = new curl();
-    $path = 'http://localhost:9090/moodle/resources_list';
+    $path = 'http://localhost:8080/moodle/resources_list';
     $json = $curl->post($path, array('hash' => $user->hash));
 
     $obj = json_decode($json);

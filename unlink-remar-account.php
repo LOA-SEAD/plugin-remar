@@ -12,7 +12,7 @@ require_login();
 required_param("hash", PARAM_STRINGID);
 $hash = optional_param('hash', 0, PARAM_RAW);
 
-$remarPath = 'http://localhost:9090';
+$remarPath = 'http://localhost:8080';
 //$PAGE->set_heading(format_string($course->fullname));
 
 global $DB;

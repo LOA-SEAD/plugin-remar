@@ -66,27 +66,30 @@ class mod_remarmoodle_mod_form extends moodleform_mod {
         //Get the user hash to send it to REMAR
         $user = $DB->get_record('remarmoodle_user', array('moodle_username' => $USER->username));
         $curl = new curl();
-        $path = 'http://localhost:9090/moodle/resources_list';
+        $path = 'http://localhost:8080/moodle/resources_list';
         $json = $curl->post($path, array('hash' => $user->hash));
 
         //convert the response to json
         $obj = json_decode($json);
         
-        $mform->addElement('html', '<div id="test">');
-        $mform->addElement('html', '<table>');
-        
-        foreach($obj->resources as $resource) {
-            $mform->addElement('html', '<tr>');
-            $mform->addElement('html', '<td>');
-            $radio =& $mform->createElement('radio', 'game', '', $resource->name, $resource->id, null);
-            $mform->addElement($radio);
-            $mform->addElement('html', '</td>');
-            $mform->addElement('html', '</tr>');
+
+        if($obj) {
+            $mform->addElement('html', '<div id="test">');
+            $mform->addElement('html', '<table>');
+
+            foreach ($obj->resources as $resource) {
+                $mform->addElement('html', '<tr>');
+                $mform->addElement('html', '<td>');
+                $radio =& $mform->createElement('radio', 'game', '', $resource->name, $resource->id, null);
+                $mform->addElement($radio);
+                $mform->addElement('html', '</td>');
+                $mform->addElement('html', '</tr>');
+            }
+
+            $mform->addElement('html', '</table>');
+
+            $mform->addElement('html', '</div>');
         }
-        
-        $mform->addElement('html', '</table>');
-            
-        $mform->addElement('html', '</div>');
         //$mform->addGroup($radioarray, 'radioar', 'Jogo a adicionar', array(' '), false);
         
         // Adding the rest of remarmoodle settings, spreading all them into this fieldset
