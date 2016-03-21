@@ -8,6 +8,20 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
+//echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">';
+echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>';
+
+
+function isInArray($array, $value) {
+    foreach($array as $obj) {
+        if($obj["hash"] == $value) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 //global $DB, $USER;
 
 $curl = curl_init();
@@ -31,28 +45,50 @@ if ($records == null) {
     echo html_writer::label("Ainda não há dados", null);
 }
 else {
+    $users = array();
+    $data = array();
+
     $table = new html_table();
-    $head = array();
-    $data;
-    $count = 0;
+    //$head = array();
 
     foreach($records as $record) {
+        $dataObj = array();
         foreach($record as $key=>$value) {
-            if (is_string($value) && $key != "moodle_url") {
-                if($count == 0) {
-                    array_push($head, $key);
-                }
-                $data[$count][$key] = $value;
+            if($key == "user" && !isInArray($users, $value)) {
+                $userObj["hash"] = $value;
+                $userObj["hits"] = 0;
+                $userObj["errors"] = 0;
+                array_push($users, $userObj);
+            }
+
+            if ($key !="game") {
+                $dataObj[$key] = $value;
             }
         }
-        $count++;
+        array_push($data, $dataObj);
     }
 
-    $table->head = $head;
+    //$table->head = $head;
     
     $table->data = $data;
     
     echo html_writer::table($table);
+
+
+    echo '<ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>';
 }
 
 ?>
