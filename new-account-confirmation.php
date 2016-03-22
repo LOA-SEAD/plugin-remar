@@ -54,7 +54,7 @@ if ($confirmed == true) {
             . '<br />Caso este email remeta a uma ação não tomada por você, por favor entre em contato conosco: <a href="mailto:remar@dc.ufscar.br">remar@dc.ufscar.br</a>';
     $messageText = html_to_text($messageHtml);
 
-    email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);
+    //email_to_user($toUser, $fromUser, $subject, $messageText, $messageHtml, ",", true);
     
     echo '<script type="text/javascript">location.href = "'.$remarPath.'/moodle/confirm/'.$hash.'?moodleId='.$moodleId.'&username='.$USER->username.'";</script>';
 }
